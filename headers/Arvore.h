@@ -3,10 +3,10 @@
 
 #include "Tad.h"
 
-void aproximacao(Estado *e, int mis, int can);
+void aproximacao(Estado *e, int mis, int can, int *lado);
 void gerarEstados();
-void printEstado(Estado *e);
-int acaoValida(Estado *e);
+void printEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito);
+int acaoValida(int misEsquerdo, int canEsquerdo, int misDireito, int canDireito);
 
 
 

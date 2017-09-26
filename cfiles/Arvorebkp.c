@@ -7,30 +7,22 @@ void aproximacao(Estado *e, int mis, int can, int *lado){
     canEsquerdo = e->ladoEsquerdo[1];
     misDireito = e->ladoDireito[0];
     canDireito = e->ladoDireito[1];
-    int i=0,j=0;
-    if(!*lado){
-
-    }else{
-
-    }
-        for(i=misEsquerdo;i>=0;i--){
-            for(j=canEsquerdo;j>=0;j--){
-                if(i+j<=3 && i+j>0){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
-                    if(i>=j || (i==0 && j>0)){
-                        if(acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j)){
-                            printEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j);
-                        }
-                    }
+    if(!lado){
+        for(;misEsquerdo>=0;misEsquerdo--){
+            for(;canEsquerdo>=0;canEsquerdo--){
+                if(acaoValida(misEsquerdo, canEsquerdo, misDireito, canDireito)){
+                    printEstado(misEsquerdo, canEsquerdo, misDireito, canDireito);
                 }
+                canDireito++;
             }
-            j=canEsquerdo;
+            canDireito=0;
+            misDireito++;
+            canEsquerdo=can;
         }
-        i=misEsquerdo;
-
-    if(!*lado){
-        *lado=1;
+        misEsquerdo=0;
+        lado=1;
     }else{
-        *lado=0;
+
     }
     //}
 }

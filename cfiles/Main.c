@@ -6,6 +6,7 @@
 int main(){
     Estado *e = iniciarEstado(MIS,CAN);
     //printEstado(e);
-    aproximacao(e,MIS,CAN);
+    int *lado=0;
+    aproximacao(e,MIS,CAN,lado);
     return 0;
 }
