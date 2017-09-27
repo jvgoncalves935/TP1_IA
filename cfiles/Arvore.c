@@ -1,12 +1,12 @@
 #include "../headers/Arvore.h"
 void aproximacao(Estado *e, int mis, int can, Estado **vetor_estados, int *num_estados){
-    //while(e->ladoDireito[0] < 3 || e->ladoDireito[1] < 3){
+    //while(e->ladoDireito->mis < 3 || e->ladoDireito->can < 3){
     //while(k<3){
     int misEsquerdo,canEsquerdo,misDireito,canDireito;
-    misEsquerdo = e->ladoEsquerdo[0];
-    canEsquerdo = e->ladoEsquerdo[1];
-    misDireito = e->ladoDireito[0];
-    canDireito = e->ladoDireito[1];
+    misEsquerdo = e->ladoEsquerdo->mis;
+    canEsquerdo = e->ladoEsquerdo->can;
+    misDireito = e->ladoDireito->mis;
+    canDireito = e->ladoDireito->can;
     int i=0,j=0;
     if(!e->lado){
         for(i=misEsquerdo;i>=0;i--){
@@ -67,7 +67,7 @@ void printEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito
     int i;
     int achou=0;
     for(i=0;i<(*num_estados);i++){
-        if((*vetor)[i].ladoEsquerdo[0] == misEsquerdo && (*vetor)[i].ladoEsquerdo[1] == canEsquerdo && (*vetor)[i].ladoDireito[0] == misDireito && (*vetor)[i].ladoDireito[1] == canDireito && (*vetor)[i].lado == lado){
+        if((*vetor)[i].ladoEsquerdo->mis == misEsquerdo && (*vetor)[i].ladoEsquerdo->can == canEsquerdo && (*vetor)[i].ladoDireito->mis == misDireito && (*vetor)[i].ladoDireito->can == canDireito && (*vetor)[i].lado == lado){
             achou = 1;
             break;
         }
@@ -77,10 +77,10 @@ void printEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito
         (*num_estados)++;
         //printf("%d num",(*num_estados));
         *vetor = realloc(*vetor,(*num_estados)*sizeof(Estado));
-        e->ladoEsquerdo[0] = misEsquerdo;
-        e->ladoEsquerdo[1] = canEsquerdo;
-        e->ladoDireito[0] = misDireito;
-        e->ladoDireito[1] = canDireito;
+        e->ladoEsquerdo->mis = misEsquerdo;
+        e->ladoEsquerdo->can = canEsquerdo;
+        e->ladoDireito->mis = misDireito;
+        e->ladoDireito->can = canDireito;
         e->lado = lado;
         (*vetor)[i] = *e;
         printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d\n",misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
