@@ -3,11 +3,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef struct lado{
+    int mis;
+    int can;
+}Lado;
+
 typedef struct estado{
-    int *ladoEsquerdo;
-    int *ladoDireito;
+    Lado *ladoEsquerdo;
+    Lado *ladoDireito;
     int lado; //0: Canoa lado esquerdo, 1: Canoa lado esquerdo.
 }Estado;
+
+
 
 typedef struct arvore{
     Estado *e;

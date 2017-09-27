@@ -12,15 +12,15 @@ int main(){
     (*num_estados)=1;
 
     aproximacao(e,MIS,CAN,&vetor_estados,num_estados);
-    e->ladoEsquerdo[0]=2;
-    e->ladoEsquerdo[1]=2;
-    e->ladoDireito[0]=1;
-    e->ladoDireito[1]=1;
+    e->ladoEsquerdo->mis=2;
+    e->ladoEsquerdo->can=2;
+    e->ladoDireito->mis=1;
+    e->ladoDireito->can=1;
     aproximacao(e,MIS,CAN,&vetor_estados,num_estados);
-    e->ladoEsquerdo[0]=3;
-    e->ladoEsquerdo[1]=2;
-    e->ladoDireito[0]=0;
-    e->ladoDireito[1]=1;
+    e->ladoEsquerdo->mis=3;
+    e->ladoEsquerdo->can=2;
+    e->ladoDireito->mis=0;
+    e->ladoDireito->can=1;
     aproximacao(e,MIS,CAN,&vetor_estados,num_estados);
     return 0;
 }
