@@ -7,5 +7,9 @@ Estado *iniciarEstado(int mis, int can){
     e->ladoEsquerdo[1]=can;
     e->ladoDireito[0]=0;
     e->ladoDireito[1]=0;
+    e->lado=0;
+
+    //printf("xddddd %d",(*e->lado));
+
     return e;
 }

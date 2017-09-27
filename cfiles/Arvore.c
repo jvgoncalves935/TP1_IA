@@ -1,5 +1,5 @@
 #include "../headers/Arvore.h"
-void aproximacao(Estado *e, int mis, int can, int *lado){
+void aproximacao(Estado *e, int mis, int can, Estado **vetor_estados, int *num_estados){
     //while(e->ladoDireito[0] < 3 || e->ladoDireito[1] < 3){
     //while(k<3){
     int misEsquerdo,canEsquerdo,misDireito,canDireito;
@@ -8,31 +8,34 @@ void aproximacao(Estado *e, int mis, int can, int *lado){
     misDireito = e->ladoDireito[0];
     canDireito = e->ladoDireito[1];
     int i=0,j=0;
-    if(!*lado){
-
-    }else{
-
-    }
+    if(!e->lado){
         for(i=misEsquerdo;i>=0;i--){
             for(j=canEsquerdo;j>=0;j--){
-                if(i+j<=3 && i+j>0){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
-                    if(i>=j || (i==0 && j>0)){
-                        if(acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j)){
-                            printEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j);
-                        }
-                    }
+                if((i+j<=3 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
+                    //printf("aaaaa %d",(*vetor_estados)[i].ladoEsquerdo[0]);
+                    printEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,e->lado,vetor_estados,num_estados);
                 }
             }
             j=canEsquerdo;
         }
         i=misEsquerdo;
-
-    if(!*lado){
-        *lado=1;
+        e->lado=1;
+        printf("\n");
     }else{
-        *lado=0;
+        for(i=misDireito;i>=0;i--){
+            for(j=canDireito;j>=0;j--){
+                if((i+j<=3 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
+                    //printf("bbbb %d",(*vetor_estados)[i].ladoEsquerdo[0]);
+                    printEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,e->lado,vetor_estados,num_estados);
+
+                }
+            }
+            j=canDireito;
+        }
+        i=misDireito;
+        printf("\n");
+        e->lado=0;
     }
-    //}
 }
 
 int acaoValida(int misEsquerdo, int canEsquerdo, int misDireito, int canDireito){
@@ -58,8 +61,33 @@ int acaoValida(int misEsquerdo, int canEsquerdo, int misDireito, int canDireito)
     return 0;
 }
 
-void printEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito){
-    printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d\n",misEsquerdo,canEsquerdo,misDireito,canDireito);
+void printEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado, Estado **vetor, int *num_estados){
+
+    Estado *e = iniciarEstado(3,3);
+    int i;
+    int achou=0;
+    for(i=0;i<(*num_estados);i++){
+        if((*vetor)[i].ladoEsquerdo[0] == misEsquerdo && (*vetor)[i].ladoEsquerdo[1] == canEsquerdo && (*vetor)[i].ladoDireito[0] == misDireito && (*vetor)[i].ladoDireito[1] == canDireito && (*vetor)[i].lado == lado){
+            achou = 1;
+            break;
+        }
+    }
+
+    if(!achou){
+        (*num_estados)++;
+        //printf("%d num",(*num_estados));
+        *vetor = realloc(*vetor,(*num_estados)*sizeof(Estado));
+        e->ladoEsquerdo[0] = misEsquerdo;
+        e->ladoEsquerdo[1] = canEsquerdo;
+        e->ladoDireito[0] = misDireito;
+        e->ladoDireito[1] = canDireito;
+        e->lado = lado;
+        (*vetor)[i] = *e;
+        printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d\n",misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
+    }else{
+        printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d  REPETIDO\n",misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
+    }
+
 }
 
 void gerarEstados(){
