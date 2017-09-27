@@ -1,19 +1,68 @@
-fileH = headers/
-fileC = cfiles/
+#Main Makefile
+CC = gcc
+CFLAGS = -g -Wall -MMD
 
-objetos = Tad.o Arvore.o Main.o 
+#Binary
+ifeq ($(OS),Windows_NT)
+    BIN = tp1.exe
+else
+    BIN = tp1
+endif
 
-tp4:	$(objetos)
-	gcc $(objetos) -o tp1
+#Directories
+IDIR = ./headers
+SDIR = ./cfiles
 
-Main.o:	$(fileC)Main.c
-	gcc -c -g -Wall -O3 $(fileC)Main.c
+ifeq ($(OS),Windows_NT)
+	ODIR = ./obj/windows
+else
+	ODIR = ./obj/linux
+endif
 
-Arvore.o:	$(fileH)Arvore.h	$(fileC)Arvore.c
-	gcc -c -g -Wall -O3 $(fileC)Arvore.c
+#Files
+SOURCE = .c
 
-Tad.o:	$(fileH)Tad.h	$(fileC)Tad.c
-	gcc -c -g -Wall -O3 $(fileC)Tad.c
+#Paths
+INCLUDE_PATHS = -I$(IDIR)
 
-clean:
-	rm -rf *.o
+#Libraries
+LIBS = 
+#CFLAGS+= `pkg-config --cflags $(LIBS)`
+#LIBRARIES = `pkg-config --libs $(LIBS)`
+
+#Compilation line
+COMPILE = $(CC) $(CFLAGS) $(INCLUDE_PATHS)
+
+#FILEs
+#---------------Source----------------#
+SRCS = $(wildcard $(SDIR)/*$(SOURCE)) $(wildcard $(SDIR)/*/*$(SOURCE))
+
+#---------------Object----------------#
+OBJS = $(SRCS:$(SDIR)/%$(SOURCE)=$(ODIR)/%.o)
+#-------------Dependency--------------#
+DEPS = $(SRCS:$(SDIR)/%$(SOURCE)=$(ODIR)/%.d)
+
+all: $(OBJS)
+	$(COMPILE) $(OBJS) $(SDIR)/Main$(SOURCE) -o $(BIN) $(LIBRARIES)
+
+dll: LIBRARIES+= -lm -fPIC
+dll: $(OBJS)
+	$(COMPILE) -shared -o libguisdl.so $(OBJS) $(LIBRARIES)
+
+# Include all .d files
+-include $(DEPS)
+
+$(ODIR)/%.o: $(SDIR)/%$(SOURCE)
+	$(COMPILE) -c $< -o $@ $(LIBRARIES)
+
+.PHONY : clean
+clean :
+	-rm $(BIN) $(OBJS) $(DEPS)
+
+init:
+	mkdir obj
+	mkdir "obj/windows"
+	mkdir "obj/linux"
+
+run:
+	./$(BIN)
