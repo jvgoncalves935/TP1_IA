@@ -16,12 +16,21 @@ typedef struct estado{
 
 
 
-typedef struct arvore{
+typedef struct no{
     Estado *e;
-    struct arvore **nodo;
-    struct arvore *pai;
+    struct no *nodo;
+    struct no *pai;
+    int numFolhas;
+}No;
+
+typedef struct arvore{
+    No *raiz;
+    int numFolhas;
 }Arvore;
 
 Estado *iniciarEstado(int mis, int can);
+Arvore *iniciarArvore(Estado *e);
+void adicionarNoArvore(Arvore *a, No *pai, Estado *filho);
+void buscaEmProfundidade(No *no, int nivel, int numNo);
 
 #endif // TAD_H_INCLUDED

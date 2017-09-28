@@ -1,5 +1,5 @@
 #include "../headers/Arvore.h"
-void aproximacao(Estado *e, int mis, int can, Estado **vetor_estados, int *num_estados){
+void aproximacao(Arvore *a, Estado *e, int mis, int can, Estado **vetor_estados, int *num_estados){
     //while(e->ladoDireito->mis < 3 || e->ladoDireito->can < 3){
     //while(k<3){
     int misEsquerdo,canEsquerdo,misDireito,canDireito;
@@ -13,6 +13,9 @@ void aproximacao(Estado *e, int mis, int can, Estado **vetor_estados, int *num_e
             for(j=canEsquerdo;j>=0;j--){
                 if((i+j<=3 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("aaaaa %d",(*vetor_estados)[i].ladoEsquerdo[0]);
+                    Estado *estadoGerado = criarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,e->lado);
+
+                    adicionarNoArvore(a,e,estadoGerado);
                     printEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,e->lado,vetor_estados,num_estados);
                 }
             }
@@ -26,6 +29,8 @@ void aproximacao(Estado *e, int mis, int can, Estado **vetor_estados, int *num_e
             for(j=canDireito;j>=0;j--){
                 if((i+j<=3 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("bbbb %d",(*vetor_estados)[i].ladoEsquerdo[0]);
+                    Estado *estadoGerado = criarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,e->lado);
+                    adicionarNoArvore(a,e,estadoGerado);
                     printEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,e->lado,vetor_estados,num_estados);
 
                 }
@@ -88,6 +93,10 @@ void printEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito
         printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d  REPETIDO\n",misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
     }
 
+}
+
+void printEstadoObjeto(Estado *e){
+    printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d\n",(e->ladoEsquerdo->mis),(e->ladoEsquerdo->can),(e->ladoDireito->mis),(e->ladoDireito->can),(e->lado));
 }
 
 void gerarEstados(){
