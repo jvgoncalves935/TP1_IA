@@ -11,7 +11,7 @@ void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int *num_est
     if(!no_inicial->e->lado){
         for(i=misEsquerdo;i>=0;i--){
             for(j=canEsquerdo;j>=0;j--){
-                if((i+j<=3 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
+                if((i+j<=2 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("aaaaa %d",(*vetor_estados)[i].ladoEsquerdo[0]);
                     Estado *estadoGerado = criarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,1);
                     No *no = criarNo(estadoGerado);
@@ -32,7 +32,7 @@ void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int *num_est
     }else{
         for(i=misDireito;i>=0;i--){
             for(j=canDireito;j>=0;j--){
-                if((i+j<=3 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
+                if((i+j<=2 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("bbbb %d",(*vetor_estados)[i].ladoEsquerdo[0]);
                     Estado *estadoGerado = criarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,0);
                     No *no = criarNo(estadoGerado);
