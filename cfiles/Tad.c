@@ -27,14 +27,20 @@ Arvore *iniciarArvore(Estado *e){
 }
 
 
-void adicionarNoArvore(Arvore *a, No *pai, Estado *filho){
+void adicionarNoArvore(Arvore *a, No *pai, Estado *filho, int nivel){
     pai->numFolhas++;
-    pai->nodo = realloc(pai->nodo,(pai->numFolhas)*sizeof(No));
-
+    //printf("%d tam %p nodo\n",(pai->numFolhas),pai->nodo);
+    //if(!pai->numFolhas){
+        //pai->nodo = malloc(sizeof(No));
+    //}else{
+        //pai->numFolhas++;
+        pai->nodo = realloc(pai->nodo,(pai->numFolhas)*sizeof(No));
+    //}
     No *no = malloc(sizeof(No));
     no->pai = pai;
     no->e = filho;
     no->numFolhas = 0;
+    //printf("pai nodo:%d  nivel:%d\n",pai->numFolhas-1,nivel);
     pai->nodo[pai->numFolhas-1] = *no;
     a->numFolhas++;
 
@@ -50,6 +56,14 @@ Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
     e->ladoDireito->can = canDireito;
     e->lado = lado;
     return e;
+}
+
+No *criarNo(Estado *e){
+    No *no = malloc(sizeof(No));
+    no->nodo = malloc(sizeof(No));
+    no->e = e;
+    no->numFolhas=0;
+    return no;
 }
 
 void buscaEmProfundidade(No *no, int nivel, int numNo){
