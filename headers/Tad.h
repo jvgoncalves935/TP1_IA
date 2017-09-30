@@ -31,7 +31,7 @@ typedef struct arvore{
     int numFolhas;
 }Arvore;
 
-Estado *iniciarEstado(int mis, int can);
+Estado *iniciarEstado(int mis, int can, int flag);
 Arvore *iniciarArvore(Estado *e);
 void adicionarNoArvore(Arvore *a, No *pai, Estado *filho, int nivel);
 void buscaEmProfundidade(No *no, int nivel, int numNo);
