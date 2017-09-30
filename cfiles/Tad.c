@@ -58,11 +58,22 @@ Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
     return e;
 }
 
-No *criarNo(Estado *e){
+No *criarNo(Estado *e, Estado **vetor_estados, int num_estados){
     No *no = malloc(sizeof(No));
     no->nodo = malloc(sizeof(No));
     no->e = e;
+    //no->vetorEstados = vetor_estados;
+    no->vetorEstados = malloc(num_estados*sizeof(Estado *));
+
+    int i;
+    printf("numEst: %d\n",num_estados);
+    for(i=0;i<num_estados;i++){
+        memcpy(no->vetorEstados[i],vetor_estados[i],sizeof(Estado));
+    }
+
+
     no->numFolhas=0;
+    no->numEstados=0;
     return no;
 }
 

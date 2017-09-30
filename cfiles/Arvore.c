@@ -14,12 +14,13 @@ void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int *num_est
                 if((i+j<=2 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("aaaaa %d",(*vetor_estados)[i].ladoEsquerdo[0]);
                     Estado *estadoGerado = criarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,1);
-                    No *no = criarNo(estadoGerado);
+                    int numE = (*num_estados);
+                    No *no = criarNo(estadoGerado,vetor_estados,numE);
                     adicionarNoArvore(a,no,estadoGerado,nivel+1);
-                    int valido = adicionarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,no_inicial->e->lado,vetor_estados,num_estados,nivel+1,no->numFolhas);
+                    int valido = adicionarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,no_inicial->e->lado,no,num_estados,nivel+1,no->numFolhas);
                     if(valido){
                         //printf("COME");
-                        aproximacao(a,no,vetor_estados,num_estados,nivel+1);
+                        aproximacao(a,no,no->vetorEstados,num_estados,nivel+1);
                     }
 
                 }
@@ -35,12 +36,13 @@ void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int *num_est
                 if((i+j<=2 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("bbbb %d",(*vetor_estados)[i].ladoEsquerdo[0]);
                     Estado *estadoGerado = criarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,0);
-                    No *no = criarNo(estadoGerado);
+                    int numE = (*num_estados);
+                    No *no = criarNo(estadoGerado,vetor_estados,numE);
                     adicionarNoArvore(a,a->raiz,estadoGerado,nivel+1);
-                    int valido = adicionarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,no_inicial->e->lado,vetor_estados,num_estados,nivel+1,no->numFolhas);
+                    int valido = adicionarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,no_inicial->e->lado,no,num_estados,nivel+1,no->numFolhas);
                     if(valido){
                         //printf("VAIEM");
-                        aproximacao(a,no,vetor_estados,num_estados,nivel+1);
+                        aproximacao(a,no,no->vetorEstados,num_estados,nivel+1);
                     }
                 }
             }
@@ -75,14 +77,14 @@ int acaoValida(int misEsquerdo, int canEsquerdo, int misDireito, int canDireito)
     return 0;
 }
 
-int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado, Estado **vetor, int *num_estados, int nivel, int pos){
+int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado, No *no, int *num_estados, int nivel, int pos){
 
     Estado *e = iniciarEstado(3,3);
     int i;
     int achou=0;
     for(i=0;i<(*num_estados);i++){
-        if((*vetor)[i].ladoEsquerdo->mis == misEsquerdo && (*vetor)[i].ladoEsquerdo->can == canEsquerdo &&
-           (*vetor)[i].ladoDireito->mis == misDireito && (*vetor)[i].ladoDireito->can == canDireito && (*vetor)[i].lado == lado){
+        if(no->vetorEstados[0][i].ladoEsquerdo->mis == misEsquerdo && (*no->vetorEstados)[i].ladoEsquerdo->can == canEsquerdo &&
+           (*no->vetorEstados)[i].ladoDireito->mis == misDireito && (*no->vetorEstados)[i].ladoDireito->can == canDireito && (*no->vetorEstados)[i].lado == lado){
             achou = 1;
             break;
         }
@@ -90,14 +92,15 @@ int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
 
     if(!achou){
         (*num_estados)++;
-        //printf("%d num",(*num_estados));
-        *vetor = realloc(*vetor,(*num_estados)*sizeof(Estado));
+        printf("%d num",(*num_estados));
+        no->vetorEstados = realloc(no->vetorEstados,(*num_estados)*sizeof(Estado*));
         e->ladoEsquerdo->mis = misEsquerdo;
         e->ladoEsquerdo->can = canEsquerdo;
         e->ladoDireito->mis = misDireito;
         e->ladoDireito->can = canDireito;
         e->lado = lado;
-        (*vetor)[i] = *e;
+        no->vetorEstados[i] = e;
+        no->numEstados =
         printf("[%d,%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n",nivel,pos,misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
         return 1;
     }else{

@@ -2,6 +2,7 @@
 #define TAD_H_INCLUDED
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct lado{
     int mis;
@@ -18,9 +19,11 @@ typedef struct estado{
 
 typedef struct no{
     Estado *e;
+    Estado **vetorEstados;
     struct no *nodo;
     struct no *pai;
     int numFolhas;
+    int numEstados;
 }No;
 
 typedef struct arvore{
@@ -33,6 +36,6 @@ Arvore *iniciarArvore(Estado *e);
 void adicionarNoArvore(Arvore *a, No *pai, Estado *filho, int nivel);
 void buscaEmProfundidade(No *no, int nivel, int numNo);
 Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado);
-No *criarNo(Estado *e);
+No *criarNo(Estado *e, Estado **vetor_estados, int num_estados);
 
 #endif // TAD_H_INCLUDED
