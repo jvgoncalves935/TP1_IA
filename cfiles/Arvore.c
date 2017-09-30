@@ -1,5 +1,5 @@
 #include "../headers/Arvore.h"
-void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int *num_estados, int nivel){
+void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int nivel){
     //while(e->ladoDireito->mis < 3 || e->ladoDireito->can < 3){
     //while(k<3){
     int misEsquerdo,canEsquerdo,misDireito,canDireito;
@@ -14,13 +14,13 @@ void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int *num_est
                 if((i+j<=2 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("aaaaa %d",(*vetor_estados)[i].ladoEsquerdo[0]);
                     Estado *estadoGerado = criarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,1);
-                    int numE = (*num_estados);
+                    int numE = (no_inicial->numEstados);
                     No *no = criarNo(estadoGerado,vetor_estados,numE);
                     adicionarNoArvore(a,no,estadoGerado,nivel+1);
-                    int valido = adicionarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,no_inicial->e->lado,no,num_estados,nivel+1,no->numFolhas);
+                    int valido = adicionarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,no_inicial->e->lado,no,nivel+1,no->numFolhas);
                     if(valido){
-                        //printf("COME");
-                        aproximacao(a,no,no->vetorEstados,num_estados,nivel+1);
+                        printf("COME");
+                        aproximacao(a,no,no->vetorEstados,nivel+1);
                     }
 
                 }
@@ -36,13 +36,13 @@ void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int *num_est
                 if((i+j<=2 && i+j>0) && (i>=j || (i==0 && j>0)) && (acaoValida(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j))){//&& (acaoValida(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j))){
                     //printf("bbbb %d",(*vetor_estados)[i].ladoEsquerdo[0]);
                     Estado *estadoGerado = criarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,0);
-                    int numE = (*num_estados);
+                    int numE = (no_inicial->numEstados);
                     No *no = criarNo(estadoGerado,vetor_estados,numE);
-                    adicionarNoArvore(a,a->raiz,estadoGerado,nivel+1);
-                    int valido = adicionarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,no_inicial->e->lado,no,num_estados,nivel+1,no->numFolhas);
+                    adicionarNoArvore(a,no,estadoGerado,nivel+1);
+                    int valido = adicionarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,no_inicial->e->lado,no,nivel+1,no->numFolhas);
                     if(valido){
-                        //printf("VAIEM");
-                        aproximacao(a,no,no->vetorEstados,num_estados,nivel+1);
+                        printf("VAIEM");
+                        aproximacao(a,no,no->vetorEstados,nivel+1);
                     }
                 }
             }
@@ -77,31 +77,34 @@ int acaoValida(int misEsquerdo, int canEsquerdo, int misDireito, int canDireito)
     return 0;
 }
 
-int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado, No *no, int *num_estados, int nivel, int pos){
+int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado, No *no, int nivel, int pos){
 
-    Estado *e = iniciarEstado(3,3);
+    Estado *e = iniciarEstado(3,3,0);
     int i;
     int achou=0;
-    for(i=0;i<(*num_estados);i++){
-        if(no->vetorEstados[0][i].ladoEsquerdo->mis == misEsquerdo && (*no->vetorEstados)[i].ladoEsquerdo->can == canEsquerdo &&
-           (*no->vetorEstados)[i].ladoDireito->mis == misDireito && (*no->vetorEstados)[i].ladoDireito->can == canDireito && (*no->vetorEstados)[i].lado == lado){
+
+    for(i=0;i<(no->numEstados);i++){
+        if((no->vetorEstados)[0][i].ladoEsquerdo->mis == misEsquerdo && (no->vetorEstados)[0][i].ladoEsquerdo->can == canEsquerdo &&
+           (no->vetorEstados)[0][i].ladoDireito->mis == misDireito && (no->vetorEstados)[0][i].ladoDireito->can == canDireito && (no->vetorEstados)[0][i].lado == lado){
             achou = 1;
             break;
         }
     }
 
     if(!achou){
-        (*num_estados)++;
-        printf("%d num",(*num_estados));
-        no->vetorEstados = realloc(no->vetorEstados,(*num_estados)*sizeof(Estado*));
+        printf("ACHOU");
+        (no->numEstados)++;
+        //printf("%d num",(*num_estados));
+        no->vetorEstados = realloc(no->vetorEstados,(no->numEstados)*sizeof(Estado*));
         e->ladoEsquerdo->mis = misEsquerdo;
         e->ladoEsquerdo->can = canEsquerdo;
         e->ladoDireito->mis = misDireito;
         e->ladoDireito->can = canDireito;
         e->lado = lado;
         no->vetorEstados[i] = e;
-        no->numEstados =
+        //no->numEstados++;
         printf("[%d,%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n",nivel,pos,misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
+        printListaEstados(no);
         return 1;
     }else{
         //printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d  REPETIDO\n",misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
@@ -112,6 +115,25 @@ int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
 
 void printEstadoObjeto(Estado *e){
     printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d\n",(e->ladoEsquerdo->mis),(e->ladoEsquerdo->can),(e->ladoDireito->mis),(e->ladoDireito->can),(e->lado));
+}
+
+void printEstadoObjetoNotPointer(Estado e){
+    printf("[Esquerdo] M:%d C:%d \t [Direito] M:%d C:%d -- Canoa Lado:%d\n",(e.ladoEsquerdo->mis),(e.ladoEsquerdo->can),(e.ladoDireito->mis),(e.ladoDireito->can),(e.lado));
+}
+
+void printListaEstados(No *no){
+    int num;
+    num=no->numEstados;
+    printf("--------------------------------------------------\n");
+    printf("Num estados:%d\n",num);
+    int k;
+    getchar();
+    getchar();
+    for(k=0;k<num;k++){
+        printf("AAA");
+        printEstadoObjetoNotPointer(no->vetorEstados[0][k]);
+    }
+    printf("--------------------------------------------------\n");
 }
 
 void gerarEstados(){

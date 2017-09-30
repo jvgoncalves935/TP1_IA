@@ -1,13 +1,16 @@
 #include "../headers/Arvore.h"
-Estado *iniciarEstado(int mis, int can){
+Estado *iniciarEstado(int mis, int can, int flag){
     Estado *e = malloc(sizeof(Estado));
     e->ladoEsquerdo=malloc(sizeof(Lado));
     e->ladoDireito=malloc(sizeof(Lado));
-    e->ladoEsquerdo->mis=mis;
-    e->ladoEsquerdo->can=can;
-    e->ladoDireito->mis=0;
-    e->ladoDireito->can=0;
-    e->lado=0;
+    if(flag){
+
+        e->ladoEsquerdo->mis=mis;
+        e->ladoEsquerdo->can=can;
+        e->ladoDireito->mis=0;
+        e->ladoDireito->can=0;
+        e->lado=0;
+    }
 
     //printf("xddddd %d",(*e->lado));
 
@@ -59,21 +62,37 @@ Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
 }
 
 No *criarNo(Estado *e, Estado **vetor_estados, int num_estados){
+    int i;
     No *no = malloc(sizeof(No));
     no->nodo = malloc(sizeof(No));
     no->e = e;
     //no->vetorEstados = vetor_estados;
     no->vetorEstados = malloc(num_estados*sizeof(Estado *));
+    no->vetorEstados[0] = malloc(num_estados*sizeof(Estado));
 
-    int i;
-    printf("numEst: %d\n",num_estados);
-    for(i=0;i<num_estados;i++){
-        memcpy(no->vetorEstados[i],vetor_estados[i],sizeof(Estado));
-    }
-
-
-    no->numFolhas=0;
+    printf("ENTROU numEst:%d\n",(num_estados));
     no->numEstados=0;
+
+
+
+
+
+    for(i=0;i<num_estados;i++){
+
+        no->vetorEstados[0][i] = vetor_estados[0][i];
+        printf("BBB");
+
+        printEstadoObjetoNotPointer(no->vetorEstados[0][i]);
+        no->numEstados++;
+        getchar();
+        getchar();
+        //memcpy(no->vetorEstados[i],vetor_estados[i],sizeof(Estado));
+    }
+    printf("acabou ");
+    //getchar();
+    //getchar();
+    no->numFolhas=0;
+
     return no;
 }
 
