@@ -125,17 +125,19 @@ void printListaEstados(No *no){
     getchar();
     getchar();
     for(k=0;k<num;k++){
-        printf("AAA");
-        printEstadoObjetoNotPointer(no->vetorEstados[k]);
+        printf("AAA %d ",k);
+        printEstadoObjetoNotPointer((no->vetorEstados)[k]);
     }
     printf("--------------------------------------------------\n");
 }
 
 void adicionarNoArvore(Arvore *a, No *pai, No *novo_no, Estado *filho, int nivel, int pos){
     pai->numFolhas++;
+    novo_no->numFolhas++;
     printf("numfolhas: %d\n",pai->numFolhas);
-    if(pai->numFolhas>1){
+    if(novo_no->numFolhas>0){
         novo_no->nodo = realloc(novo_no->nodo,(novo_no->numFolhas)*sizeof(No));
+        printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     }
     //No *no = malloc(sizeof(No));
     novo_no->pai = pai;
@@ -152,8 +154,9 @@ void adicionarNoArvore(Arvore *a, No *pai, No *novo_no, Estado *filho, int nivel
                novo_no->e->ladoDireito->mis,novo_no->e->ladoDireito->can,novo_no->e->lado);
 
         printListaEstados(novo_no);
-    printf("%p xddd ",pai->nodo[pai->numFolhas-1]);
-    printf("%p ",*novo_no);
+    printf("%d xddd ",pai->numFolhas-1);
+    getchar();
+    getchar();
     pai->nodo[pai->numFolhas-1] = *novo_no;
 
     a->numFolhas++;

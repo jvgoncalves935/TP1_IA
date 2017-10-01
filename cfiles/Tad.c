@@ -23,7 +23,9 @@ Arvore *iniciarArvore(Estado *e){
     noRaiz->e = e;
     noRaiz->pai = NULL;
     noRaiz->numFolhas = 0;
+    noRaiz->nodo = malloc(sizeof(No));
     a->raiz = noRaiz;
+
     //printEstadoObjeto(a->raiz->e);
     a->numFolhas=1;
     return a;
