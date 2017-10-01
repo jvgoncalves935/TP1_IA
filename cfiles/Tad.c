@@ -61,14 +61,13 @@ Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
     return e;
 }
 
-No *criarNo(Estado *e, Estado **vetor_estados, int num_estados){
+No *criarNo(Estado *e, Estado *vetor_estados, int num_estados){
     int i;
     No *no = malloc(sizeof(No));
     no->nodo = malloc(sizeof(No));
     no->e = e;
     //no->vetorEstados = vetor_estados;
-    no->vetorEstados = malloc(num_estados*sizeof(Estado *));
-    no->vetorEstados[0] = malloc(num_estados*sizeof(Estado));
+    no->vetorEstados = malloc(num_estados*sizeof(Estado));
 
     printf("ENTROU numEst:%d\n",(num_estados));
     no->numEstados=0;
@@ -79,13 +78,11 @@ No *criarNo(Estado *e, Estado **vetor_estados, int num_estados){
 
     for(i=0;i<num_estados;i++){
 
-        no->vetorEstados[0][i] = vetor_estados[0][i];
+        no->vetorEstados[i] = vetor_estados[i];
         printf("BBB");
 
-        printEstadoObjetoNotPointer(no->vetorEstados[0][i]);
+        printEstadoObjetoNotPointer(no->vetorEstados[i]);
         no->numEstados++;
-        getchar();
-        getchar();
         //memcpy(no->vetorEstados[i],vetor_estados[i],sizeof(Estado));
     }
     printf("acabou ");

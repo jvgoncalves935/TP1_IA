@@ -8,7 +8,7 @@ int main(){
     Estado *vetor_estados = malloc(sizeof(Estado));
     vetor_estados[0] = *e;
     Arvore *a = iniciarArvore(e);
-    a->raiz->vetorEstados = &vetor_estados;
+    a->raiz->vetorEstados = vetor_estados;
     a->raiz->numEstados=1;
     aproximacao(a,a->raiz,a->raiz->vetorEstados,1);
     return 0;
