@@ -1,9 +1,5 @@
 #include "../headers/Arvore.h"
-<<<<<<< HEAD
 void aproximacao(Arvore *a, No *no_inicial, Estado *vetor_estados, int nivel){
-=======
-void aproximacao(Arvore *a, No *no_inicial, Estado **vetor_estados, int nivel){
->>>>>>> master
     //while(e->ladoDireito->mis < 3 || e->ladoDireito->can < 3){
     //while(k<3){
     int misEsquerdo,canEsquerdo,misDireito,canDireito;
@@ -88,13 +84,8 @@ int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
     int achou=0;
 
     for(i=0;i<(no->numEstados);i++){
-<<<<<<< HEAD
         if((no->vetorEstados)[i].ladoEsquerdo->mis == misEsquerdo && (no->vetorEstados)[i].ladoEsquerdo->can == canEsquerdo &&
            (no->vetorEstados)[i].ladoDireito->mis == misDireito && (no->vetorEstados)[i].ladoDireito->can == canDireito && (no->vetorEstados)[i].lado == lado){
-=======
-        if((no->vetorEstados)[0][i].ladoEsquerdo->mis == misEsquerdo && (no->vetorEstados)[0][i].ladoEsquerdo->can == canEsquerdo &&
-           (no->vetorEstados)[0][i].ladoDireito->mis == misDireito && (no->vetorEstados)[0][i].ladoDireito->can == canDireito && (no->vetorEstados)[0][i].lado == lado){
->>>>>>> master
             achou = 1;
             break;
         }
@@ -110,11 +101,7 @@ int adicionarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
         e->ladoDireito->mis = misDireito;
         e->ladoDireito->can = canDireito;
         e->lado = lado;
-<<<<<<< HEAD
         no->vetorEstados[i] = *e;
-=======
-        no->vetorEstados[i] = e;
->>>>>>> master
         //no->numEstados++;
         printf("[%d,%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n",nivel,pos,misEsquerdo,canEsquerdo,misDireito,canDireito,lado);
         printListaEstados(no);
@@ -144,11 +131,8 @@ void printListaEstados(No *no){
     getchar();
     for(k=0;k<num;k++){
         printf("AAA");
-<<<<<<< HEAD
         printEstadoObjetoNotPointer(no->vetorEstados[k]);
-=======
-        printEstadoObjetoNotPointer(no->vetorEstados[0][k]);
->>>>>>> master
+
     }
     printf("--------------------------------------------------\n");
 }
