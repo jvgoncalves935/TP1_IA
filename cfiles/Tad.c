@@ -30,25 +30,6 @@ Arvore *iniciarArvore(Estado *e){
 }
 
 
-void adicionarNoArvore(Arvore *a, No *pai, Estado *filho, int nivel){
-    pai->numFolhas++;
-    //printf("%d tam %p nodo\n",(pai->numFolhas),pai->nodo);
-    //if(!pai->numFolhas){
-        //pai->nodo = malloc(sizeof(No));
-    //}else{
-        //pai->numFolhas++;
-        pai->nodo = realloc(pai->nodo,(pai->numFolhas)*sizeof(No));
-    //}
-    No *no = malloc(sizeof(No));
-    no->pai = pai;
-    no->e = filho;
-    no->numFolhas = 0;
-    //printf("pai nodo:%d  nivel:%d\n",pai->numFolhas-1,nivel);
-    pai->nodo[pai->numFolhas-1] = *no;
-    a->numFolhas++;
-
-}
-
 Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado){
     Estado *e = malloc(sizeof(Estado));
     e->ladoEsquerdo = malloc(sizeof(Lado));
@@ -62,39 +43,7 @@ Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDire
 }
 
 
-No *criarNo(Estado *e, Estado *vetor_estados, int num_estados){
 
-    int i;
-    No *no = malloc(sizeof(No));
-    no->nodo = malloc(sizeof(No));
-    no->e = e;
-    //no->vetorEstados = vetor_estados;
-    no->vetorEstados = malloc(num_estados*sizeof(Estado));
-    printf("ENTROU numEst:%d\n",(num_estados));
-    no->numEstados=0;
-
-
-
-
-
-    for(i=0;i<num_estados;i++){
-
-        no->vetorEstados[i] = vetor_estados[i];
-        printf("BBB");
-
-        printEstadoObjetoNotPointer(no->vetorEstados[i]);
-        no->numEstados++;
-        getchar();
-        getchar();
-        //memcpy(no->vetorEstados[i],vetor_estados[i],sizeof(Estado));
-    }
-    printf("acabou ");
-    //getchar();
-    //getchar();
-    no->numFolhas=0;
-
-    return no;
-}
 
 void buscaEmProfundidade(No *no, int nivel, int numNo){
     int i;
