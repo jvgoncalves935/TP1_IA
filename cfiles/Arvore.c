@@ -2,11 +2,17 @@
 void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
     //while(e->ladoDireito->mis < 3 || e->ladoDireito->can < 3){
     //while(k<3){
+    
+    
+    
     int misEsquerdo,canEsquerdo,misDireito,canDireito;
     misEsquerdo = pai->e->ladoEsquerdo->mis;
     canEsquerdo = pai->e->ladoEsquerdo->can;
     misDireito = pai->e->ladoDireito->mis;
     canDireito = pai->e->ladoDireito->can;
+    
+    printf("[%d] M:%d C:%d\t M:%d C:%d\n",pai->id,misEsquerdo,canEsquerdo,misDireito,canDireito);
+    
     int i=0,j=0;
     No *no;
     if(!pai->e->lado){
@@ -21,12 +27,12 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
                         no = criarNo(estadoGerado,vetor_estados,numE,a->numFolhas);
                         adicionarNoArvore(a,pai,no,estadoGerado,nivel+1,valido);
                         
-                        printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
-    pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
+                        //printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
+    //pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
                         
-                        aproximacao(a,no,no->vetorEstados,nivel+1);
-                        printf("NIVEL %d\n",nivel);
-                        getchar();
+                        //aproximacao(a,no,no->vetorEstados,nivel+1);
+                        //printf("NIVEL %d\n",nivel);
+                        //getchar();
                     }
 
                 }
@@ -47,12 +53,12 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
                         no = criarNo(estadoGerado,vetor_estados,numE,a->numFolhas);
                         adicionarNoArvore(a,pai,no,estadoGerado,nivel+1,valido);
                         
-                        printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
-    pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
+                        //printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
+    //pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
                         
-                        aproximacao(a,no,no->vetorEstados,nivel+1);
-                        printf("NIVEL %d\n",nivel);
-                        getchar();
+                        //aproximacao(a,no,no->vetorEstados,nivel+1);
+                        //printf("NIVEL %d\n",nivel);
+                        //getchar();
                     }
                 }
             }
@@ -61,11 +67,12 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
         i=misDireito;
     }
     
-    /*
+    getchar();
+    
     for(i=0;i<pai->numFolhas;i++){
         aproximacao(a,&pai->nodo[i],pai->nodo[i].vetorEstados,nivel+1);
     }
-     * */
+     
     
     
 }
@@ -140,7 +147,7 @@ void printListaEstados(No *no){
 void adicionarNoArvore(Arvore *a, No *pai, No *novo_no, Estado *filho, int nivel, int pos){
     pai->numFolhas++;
     novo_no->numFolhas++;
-    printf("numfolhas: %d\n",pai->numFolhas);
+    //printf("numfolhas: %d\n",pai->numFolhas);
     if(novo_no->numFolhas>0){
         novo_no->nodo = realloc(novo_no->nodo,(novo_no->numFolhas)*sizeof(No));
     }
@@ -185,7 +192,7 @@ No *criarNo(Estado *e, Estado *vetor_estados, int num_estados, int id){
         no->vetorEstados[i] = vetor_estados[i];
         //printf("BBB");
 
-        printEstadoObjetoNotPointer(no->vetorEstados[i]);
+        //printEstadoObjetoNotPointer(no->vetorEstados[i]);
         no->numEstados++;
 
         //memcpy(no->vetorEstados[i],vetor_estados[i],sizeof(Estado));
