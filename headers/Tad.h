@@ -24,6 +24,7 @@ typedef struct no{
     struct no *pai;
     int numFolhas;
     int numEstados;
+    int id;
 }No;
 
 typedef struct arvore{

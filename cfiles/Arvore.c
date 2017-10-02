@@ -8,6 +8,7 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
     misDireito = pai->e->ladoDireito->mis;
     canDireito = pai->e->ladoDireito->can;
     int i=0,j=0;
+    No *no;
     if(!pai->e->lado){
         for(i=misEsquerdo;i>=0;i--){
             for(j=canEsquerdo;j>=0;j--){
@@ -17,10 +18,15 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
                     int numE = (pai->numEstados);
                     int valido = verificarEstado(misEsquerdo-i,canEsquerdo-j,misDireito+i,canDireito+j,1,pai,nivel+1,pai->numFolhas);
                     if(valido>-1){
-                        No *no = criarNo(estadoGerado,vetor_estados,numE);
+                        no = criarNo(estadoGerado,vetor_estados,numE,a->numFolhas);
                         adicionarNoArvore(a,pai,no,estadoGerado,nivel+1,valido);
+                        
+                        printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
+    pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
+                        
                         printf("RECURSAO_1\n");
                         aproximacao(a,no,no->vetorEstados,nivel+1);
+                        getchar();
                     }
 
                 }
@@ -38,18 +44,30 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
                     int numE = (pai->numEstados);
                     int valido = verificarEstado(misEsquerdo+i,canEsquerdo+j,misDireito-i,canDireito-j,0,pai,nivel+1,pai->numFolhas);
                     if(valido>-1){
-                        No *no = criarNo(estadoGerado,vetor_estados,numE);
+                        no = criarNo(estadoGerado,vetor_estados,numE,a->numFolhas);
                         adicionarNoArvore(a,pai,no,estadoGerado,nivel+1,valido);
+                        
+                        printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
+    pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
+                        
                         printf("RECURSAO_2\n");
                         aproximacao(a,no,no->vetorEstados,nivel+1);
+                        getchar();
                     }
                 }
             }
             j=canDireito;
         }
         i=misDireito;
-
     }
+    
+    /*
+    for(i=0;i<pai->numFolhas;i++){
+        aproximacao(a,&pai->nodo[i],pai->nodo[i].vetorEstados,nivel+1);
+    }
+     * */
+    
+    
 }
 
 int acaoValida(int misEsquerdo, int canEsquerdo, int misDireito, int canDireito){
@@ -122,8 +140,8 @@ void printListaEstados(No *no){
     printf("--------------------------------------------------\n");
     printf("printLista numEst:%d\n",num);
     int k;
-    getchar();
-    getchar();
+    //getchar();
+    //getchar();
     for(k=0;k<num;k++){
         printf("AAA %d ",k);
         printEstadoObjetoNotPointer((no->vetorEstados)[k]);
@@ -137,7 +155,6 @@ void adicionarNoArvore(Arvore *a, No *pai, No *novo_no, Estado *filho, int nivel
     printf("numfolhas: %d\n",pai->numFolhas);
     if(novo_no->numFolhas>0){
         novo_no->nodo = realloc(novo_no->nodo,(novo_no->numFolhas)*sizeof(No));
-        printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     }
     //No *no = malloc(sizeof(No));
     novo_no->pai = pai;
@@ -145,28 +162,29 @@ void adicionarNoArvore(Arvore *a, No *pai, No *novo_no, Estado *filho, int nivel
     novo_no->numFolhas = 0;
 
     printf("ADD ESTADO\n");
-        (novo_no->numEstados)++;
-        novo_no->vetorEstados = realloc(novo_no->vetorEstados,(novo_no->numEstados)*sizeof(Estado*));
-        Estado *e = criarEstado(novo_no->e->ladoEsquerdo->mis,novo_no->e->ladoEsquerdo->can,novo_no->e->ladoDireito->mis,novo_no->e->ladoDireito->can,novo_no->e->lado);
-        novo_no->vetorEstados[pos] = *e;
-        //no->numEstados++;
-        printf("[%d,%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n",nivel,pos,novo_no->e->ladoEsquerdo->mis,novo_no->e->ladoEsquerdo->can,
-               novo_no->e->ladoDireito->mis,novo_no->e->ladoDireito->can,novo_no->e->lado);
+    (novo_no->numEstados)++;
+    novo_no->vetorEstados = realloc(novo_no->vetorEstados,(novo_no->numEstados)*sizeof(Estado));
+    Estado *e = criarEstado(novo_no->e->ladoEsquerdo->mis,novo_no->e->ladoEsquerdo->can,novo_no->e->ladoDireito->mis,novo_no->e->ladoDireito->can,novo_no->e->lado);
+    novo_no->vetorEstados[pos] = *e;
+    //no->numEstados++;
+    //printf("[%d,%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n",pai->id,pai->numFolhas-1,novo_no->e->ladoEsquerdo->mis,novo_no->e->ladoEsquerdo->can,
+    //novo_no->e->ladoDireito->mis,novo_no->e->ladoDireito->can,novo_no->e->lado);
 
-        printListaEstados(novo_no);
-    printf("%d xddd ",pai->numFolhas-1);
-    getchar();
-    getchar();
+    //printListaEstados(novo_no);
+    //getchar();
+    //getchar();
+        
     pai->nodo[pai->numFolhas-1] = *novo_no;
 
     a->numFolhas++;
 
 }
 
-No *criarNo(Estado *e, Estado *vetor_estados, int num_estados){
+No *criarNo(Estado *e, Estado *vetor_estados, int num_estados, int id){
 
     int i;
     No *no = malloc(sizeof(No));
+    no->id = id;
     no->nodo = malloc(sizeof(No));
     no->e = e;
     //no->vetorEstados = vetor_estados;
@@ -177,14 +195,14 @@ No *criarNo(Estado *e, Estado *vetor_estados, int num_estados){
     for(i=0;i<num_estados;i++){
 
         no->vetorEstados[i] = vetor_estados[i];
-        printf("BBB");
+        //printf("BBB");
 
-        printEstadoObjetoNotPointer(no->vetorEstados[i]);
+        //printEstadoObjetoNotPointer(no->vetorEstados[i]);
         no->numEstados++;
 
         //memcpy(no->vetorEstados[i],vetor_estados[i],sizeof(Estado));
     }
-    printf("ESTADOS ANTIGOS\n\n");
+    //printf("ESTADOS ANTIGOS\n\n");
     no->numFolhas=0;
     return no;
 }

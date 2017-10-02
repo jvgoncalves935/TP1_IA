@@ -11,5 +11,6 @@ int main(){
     a->raiz->vetorEstados = vetor_estados;
     a->raiz->numEstados=1;
     aproximacao(a,a->raiz,a->raiz->vetorEstados,0);
+    printf("\nFIM\n");
     return 0;
 }

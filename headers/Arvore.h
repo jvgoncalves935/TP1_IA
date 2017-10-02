@@ -11,7 +11,7 @@ void printEstadoObjeto(Estado *e);
 void printListaEstados(No *no);
 void printEstadoObjetoNotPointer(Estado e);
 void adicionarNoArvore(Arvore *a,  No *pai, No *novo_no, Estado *filho, int nivel, int pos);
-No *criarNo(Estado *e, Estado *vetor_estados, int num_estados);
+No *criarNo(Estado *e, Estado *vetor_estados, int num_estados, int id);
 
 
 #endif // ARVORE_H_INCLUDED
