@@ -1,17 +1,23 @@
-#ifndef ARVORE_H_INCLUDED
-#define ARVORE_H_INCLUDED
+#ifndef ARVORE_H
+#define ARVORE_H
 
-#include "Tad.h"
+#include "estado.h"
 
-void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel);
-int verificarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado, No *no);
-int acaoValida(int misEsquerdo, int canEsquerdo, int misDireito, int canDireito);
-void printEstadoObjeto(Estado *e);
-void printListaEstados(No *no);
-void printEstadoObjetoNotPointer(Estado e);
-void adicionarNoArvore(Arvore *a,  No *pai, No *novo_no, Estado filho, int nivel, int pos);
-No *criarNo(Estado e, Estado *vetor_estados, int num_estados, int id);
-void printStatus(No *pai);
-void printNodosFilhos(No *pai);
+typedef struct No{
+    Estado e;
+    int num_adj; ///Número de nós adjacentes.
+    int *adj;///Endereco dos nós adjacentes na hash.
+    int visitado;
+    No *pai;
+    
+}No;
 
-#endif // ARVORE_H_INCLUDED
+typedef No * Arvore;
+
+No cria_no(No *pai, Estado e);
+
+Arvore iniciar_arvore();
+
+void adicionar_adj(Arvore arvore, No *atual, No *novo);
+
+#endif /* ARVORE_H */
