@@ -18,7 +18,7 @@ typedef struct estado{
 
 
 typedef struct no{
-    Estado *e;
+    Estado e;
     Estado *vetorEstados;
     struct no *nodo;
     struct no *pai;
@@ -33,9 +33,9 @@ typedef struct arvore{
 }Arvore;
 
 Estado *iniciarEstado(int mis, int can, int flag);
-Arvore *iniciarArvore(Estado *e);
+Arvore *iniciarArvore(Estado e);
 void buscaEmProfundidade(No *no, int nivel, int numNo);
-Estado *criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado);
+Estado criarEstado(int misEsquerdo, int canEsquerdo,int misDireito, int canDireito, int lado);
 
 
 #endif // TAD_H_INCLUDED

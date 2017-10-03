@@ -4,12 +4,8 @@
 #define CAN 3
 
 int main(){
-    Estado *e = criarEstado(MIS,CAN,0,0,0);
-    Estado *vetor_estados = malloc(sizeof(Estado));
-    vetor_estados[0] = *e;
+    Estado e = criarEstado(MIS,CAN,0,0,0);
     Arvore *a = iniciarArvore(e);
-    a->raiz->vetorEstados = vetor_estados;
-    a->raiz->numEstados=1;
     printf("\n");
     aproximacao(a,a->raiz,a->raiz->vetorEstados,0);
     printf("\nFIM\n");
