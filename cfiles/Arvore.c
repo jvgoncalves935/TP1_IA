@@ -11,7 +11,7 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
     misDireito = pai->e->ladoDireito->mis;
     canDireito = pai->e->ladoDireito->can;
     
-    printf("[%d] M:%d C:%d\t M:%d C:%d\n",pai->id,misEsquerdo,canEsquerdo,misDireito,canDireito);
+    //printf("[%d] M:%d C:%d\t M:%d C:%d\n",pai->id,misEsquerdo,canEsquerdo,misDireito,canDireito);
     
     int i=0,j=0;
     No *no;
@@ -26,7 +26,7 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
                     if(valido>-1){
                         no = criarNo(estadoGerado,vetor_estados,numE,a->numFolhas);
                         adicionarNoArvore(a,pai,no,estadoGerado,nivel+1,valido);
-                        
+                        //printEstadoObjeto(no->e);
                         //printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
     //pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
                         
@@ -52,7 +52,7 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
                     if(valido>-1){
                         no = criarNo(estadoGerado,vetor_estados,numE,a->numFolhas);
                         adicionarNoArvore(a,pai,no,estadoGerado,nivel+1,valido);
-                        
+                        //printEstadoObjeto(no->e);
                         //printf("[%d,%d] [%d]\t [Esq] M:%d C:%d \t [Dir] M:%d C:%d -- Canoa Lado:%d\n\n",pai->id,pai->numFolhas-1,no->id,pai->e->ladoEsquerdo->mis,pai->e->ladoEsquerdo->can,
     //pai->e->ladoDireito->mis,pai->e->ladoDireito->can,pai->e->lado);
                         
@@ -66,7 +66,7 @@ void aproximacao(Arvore *a, No *pai, Estado *vetor_estados, int nivel){
         }
         i=misDireito;
     }
-    
+    printNodosFilhos(pai);
     getchar();
     
     for(i=0;i<pai->numFolhas;i++){
@@ -150,6 +150,8 @@ void adicionarNoArvore(Arvore *a, No *pai, No *novo_no, Estado *filho, int nivel
     //printf("numfolhas: %d\n",pai->numFolhas);
     if(novo_no->numFolhas>0){
         novo_no->nodo = realloc(novo_no->nodo,(novo_no->numFolhas)*sizeof(No));
+    }else{
+        novo_no->nodo = malloc(sizeof(No));
     }
     //No *no = malloc(sizeof(No));
     novo_no->pai = pai;
@@ -200,6 +202,13 @@ No *criarNo(Estado *e, Estado *vetor_estados, int num_estados, int id){
     //printf("ESTADOS ANTIGOS\n\n");
     no->numFolhas=0;
     return no;
+}
+
+void printNodosFilhos(No *pai){
+    int i;
+    for(i=0;i<pai->numFolhas;i++){
+        printEstadoObjeto((pai->nodo)[i].e);
+    }
 }
 
 void gerarEstados(){
