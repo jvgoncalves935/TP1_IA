@@ -10,6 +10,7 @@ int main(){
     Arvore *a = iniciarArvore(e);
     a->raiz->vetorEstados = vetor_estados;
     a->raiz->numEstados=1;
+    printf("\n");
     aproximacao(a,a->raiz,a->raiz->vetorEstados,0);
     printf("\nFIM\n");
     return 0;
