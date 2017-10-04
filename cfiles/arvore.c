@@ -6,7 +6,8 @@ No criar_no(Estado e, int pai){
     no.e = e;
     no.pai = pai;
     no.num_adj = 0;
-    no.adj = NULL;
+	no.adj = malloc(sizeof(No *));
+    (*no.adj) = NULL;
     no.visitado = 0;
     
     return no;
@@ -16,10 +17,10 @@ Arvore criar_arvore(){
     return calloc(TAM_HASH, sizeof(No));
 }
 
-int acao_valida(Lado esquerdo, Lado direito, int mis_c, int can_c){
+int acao_valida(Estado estado, int mis_c, int can_c){
 	if(mis_c + can_c > 0 && mis_c + can_c <= 2 && (mis_c <= mis_c || mis_c == 0)){
 
-		if(lado_valido(esquerdo) && lado_valido(direito)){
+		if(estado_valido(estado)){
 			return 1;
 		}
 	}
@@ -27,66 +28,73 @@ int acao_valida(Lado esquerdo, Lado direito, int mis_c, int can_c){
 	return 0;
 }
 
-void adicionar_adj(Arvore arvore, No *atual, No novo){
-	int indice_novo = indice_hash(novo.e);
+void adicionar_adj(Arvore arvore, int indice_atual, int indice_novo){
+	No *atual = &arvore[indice_atual];
 	
-    if(!arvore[indice_novo].visitado){
-		//Adiciona o vértice novo na árvore.
-		arvore[indice_novo] = novo;
-		arvore[indice_novo].visitado = 1;
-
-		//O indice do novo no e inserido na lista de adjacentes do atual.
-		int temp = atual->num_adj;
-        atual->num_adj++;
-        atual->adj = realloc(atual->adj, atual->num_adj * sizeof(int));
-        atual->adj[temp] = indice_novo;
-    }
+	//O indice do novo nó é inserido na lista de adjacentes do atual.
+	int temp = atual->num_adj;
+	atual->num_adj++;
+	(*atual->adj) = realloc((*atual->adj), atual->num_adj * sizeof(int));
+	(*atual->adj)[temp] = indice_novo;
 }
 
 int nivel = 0;
-void gerar_arvore(Arvore arvore, No *atual){
-	int hash_atual = indice_hash(atual->e); //Cache da hash do no atual para evitar
-											//recalculo.
+void gerar_arvore(Arvore arvore, int indice_atual){
+	No *atual = &arvore[indice_atual];
+	
+	//Marca o nó como visitado.
+	atual->visitado = 1;
 	
 	nivel++;
-	printf("%d Atual: ", nivel); printE(atual->e);
+	printf("\tPai: "); printE(arvore[atual->pai].e);
+	printf("%d %d Atual: ", nivel, atual->visitado); printE(atual->e);
+	puts("");
+	
 	//TO-DO: organizar isso numa funçao.
 	No novo_no;
+	Estado estado_novo;
 	Lado esquerdo_novo, direito_novo;
 	int mis, can;
+	int indice_novo;
+	
+	Lado lado_atual;
+	int wtf;
+	
 	if(atual->e.canoa == ESQUERDO){
-		for(can = atual->e.esquerdo.mis; can >= 0; can--){
-			for(mis = atual->e.esquerdo.can; mis >= 0; mis--){
-				
-				direito_novo.mis = mis;
-				direito_novo.can = can;
-				esquerdo_novo = calcula_lado_oposto(direito_novo); //Lado esquerdo apos a movimentaçao da canoa.
-				
-				if(acao_valida(esquerdo_novo, direito_novo, mis, can)){ //Se ambos sao validos.
-					novo_no = criar_no(criar_estado(esquerdo_novo, DIREITO), hash_atual);
-					adicionar_adj(arvore, atual, novo_no);
-				}
-			}
-		}
+		lado_atual = atual->e.esquerdo;
+		wtf = -1;
 	}else{
-		for(can = atual->e.direito.mis; can >= 0; can--){
-			for(mis = atual->e.direito.can; mis >= 0; mis--){
-				
-				esquerdo_novo.mis = mis;
-				esquerdo_novo.can = can;
-				direito_novo = calcula_lado_oposto(esquerdo_novo); //Lado direito após a movimentaçao da canoa.
-				
-				if(acao_valida(esquerdo_novo, direito_novo, mis, can)){ //Se ambos são válidos.
-					novo_no = criar_no(criar_estado(direito_novo, ESQUERDO), hash_atual);
-					adicionar_adj(arvore, atual, novo_no);
-				}
+		lado_atual = atual->e.direito;
+		wtf = 1;
+	}
+	for(mis = lado_atual.mis; mis >= 0; mis--){
+		for(can = lado_atual.can; can >= 0; can--){
+
+			esquerdo_novo.mis = atual->e.esquerdo.mis + (wtf * mis);
+			esquerdo_novo.can = atual->e.esquerdo.can + (wtf * can);
+			estado_novo = criar_estado(esquerdo_novo, DIREITO);
+
+			if(acao_valida(estado_novo, mis, can)){
+				indice_novo = indice_hash(estado_novo);
+				arvore[indice_novo] = criar_no(estado_novo, indice_atual);
+				adicionar_adj(arvore, indice_atual, indice_novo);
 			}
 		}
 	}
 
 	int i;
+	
+	printf("Filhos:\n");
 	for(i=0; i<atual->num_adj; i++){
-		gerar_arvore(arvore, &arvore[atual->adj[i]]);
+		printf("    %d: ", arvore[(*atual->adj)[i]].visitado);
+		printE( arvore[(*atual->adj)[i]].e );
+	}
+	getchar();
+	
+	for(i=0; i<atual->num_adj; i++){
+		if(!arvore[(*atual->adj)[i]].visitado){
+			gerar_arvore(arvore, (*atual->adj)[i]);
+		}
 	}
 	nivel--;
 }

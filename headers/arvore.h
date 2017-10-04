@@ -6,7 +6,7 @@
 typedef struct No{
     Estado e;       ///Estado correspondente ao nó.
     int num_adj;    ///Número de nós adjacentes.
-    int *adj;       ///Endereco dos nós adjacentes na hash.
+    int **adj;       ///Endereco dos nós adjacentes na hash.
     int visitado;   ///Indica se o nó ja foi visitado.
     int pai;        ///Indice do pai na tabela de hash.
 }No;
@@ -17,10 +17,12 @@ No criar_no(Estado e, int pai);
 
 Arvore criar_arvore();
 
-int acao_valida(Lado esquerdo, Lado direito, int mis_c, int can_c);
+int acao_valida(Estado estado, int mis_c, int can_c);
 
-void adicionar_adj(Arvore arvore, No *atual, No novo);
+void adicionar_adj(Arvore arvore, int indice_atual, int indice_novo);
 
-void gerar_arvore(Arvore arvore, No *atual);
+void gerar_adj(Arvore arvore, int indice_atual, Lado lado, Canoa);
+
+void gerar_arvore(Arvore arvore, int indice_atual);
 
 #endif /* ARVORE_H */
