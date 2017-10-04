@@ -35,11 +35,13 @@ Lado calcula_lado_oposto(Lado lado){
 
 int indice_hash(Estado estado){
     int hash=0;
-    hash+=potencia_10(4)*estado.canoa;
-    hash+=potencia_10(3)*estado.esquerdo.mis;
-    hash+=potencia_10(2)*estado.esquerdo.can;
-    hash+=potencia_10(1)*estado.direito.mis;
-    hash+=potencia_10(0)*estado.direito.can;
+	int r = 1;
+	int *vet = (int *)&estado;
+	int i;
+	for(i=0; i<=4; i++){
+		hash += (vet[i] * r);
+		r *= 10;
+	}
     return hash;
 }
 

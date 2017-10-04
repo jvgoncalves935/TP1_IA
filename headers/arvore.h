@@ -6,7 +6,7 @@
 typedef struct No{
     Estado e;       ///Estado correspondente ao nó.
     int num_adj;    ///Número de nós adjacentes.
-    int **adj;       ///Endereco dos nós adjacentes na hash.
+    int *adj;       ///Endereco dos nós adjacentes na hash.
     int visitado;   ///Indica se o nó ja foi visitado.
     int pai;        ///Indice do pai na tabela de hash.
 }No;

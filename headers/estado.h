@@ -15,13 +15,13 @@ typedef enum Canoa{
 }Canoa;
 
 typedef struct Lado{
-    int mis;
     int can;
+    int mis;
 }Lado;
 
 typedef struct Estado{
-    Lado esquerdo;
     Lado direito;
+    Lado esquerdo;
     Canoa canoa;
 }Estado;
 

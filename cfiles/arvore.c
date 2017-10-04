@@ -6,8 +6,7 @@ No criar_no(Estado e, int pai){
     no.e = e;
     no.pai = pai;
     no.num_adj = 0;
-	no.adj = malloc(sizeof(No *));
-    (*no.adj) = NULL;
+    no.adj = NULL;
     no.visitado = 0;
     
     return no;
@@ -34,19 +33,19 @@ void adicionar_adj(Arvore arvore, int indice_atual, int indice_novo){
 	//O indice do novo nó é inserido na lista de adjacentes do atual.
 	int temp = atual->num_adj;
 	atual->num_adj++;
-	(*atual->adj) = realloc((*atual->adj), atual->num_adj * sizeof(int));
-	(*atual->adj)[temp] = indice_novo;
+	atual->adj = realloc(atual->adj, atual->num_adj * sizeof(int));
+	atual->adj[temp] = indice_novo;
 }
 
-int nivel = 0;
+int nivel = 0, total = 1;
 void gerar_arvore(Arvore arvore, int indice_atual){
 	No *atual = &arvore[indice_atual];
 	
 	//Marca o nó como visitado.
-	atual->visitado = 1;
+	//atual->visitado = 1;
 	
 	nivel++;
-	printf("\tPai: "); printE(arvore[atual->pai].e);
+	printf("\tPai: %d", arvore[atual->pai].visitado); printE(arvore[atual->pai].e);
 	printf("%d %d Atual: ", nivel, atual->visitado); printE(atual->e);
 	puts("");
 	
@@ -72,11 +71,14 @@ void gerar_arvore(Arvore arvore, int indice_atual){
 
 			esquerdo_novo.mis = atual->e.esquerdo.mis + (wtf * mis);
 			esquerdo_novo.can = atual->e.esquerdo.can + (wtf * can);
-			estado_novo = criar_estado(esquerdo_novo, DIREITO);
+			estado_novo = criar_estado(esquerdo_novo, !atual->e.canoa);
 
 			if(acao_valida(estado_novo, mis, can)){
 				indice_novo = indice_hash(estado_novo);
-				arvore[indice_novo] = criar_no(estado_novo, indice_atual);
+				if(!arvore[indice_novo].visitado){
+					arvore[indice_novo] = criar_no(estado_novo, indice_atual);
+					total++;
+				}
 				adicionar_adj(arvore, indice_atual, indice_novo);
 			}
 		}
@@ -86,14 +88,14 @@ void gerar_arvore(Arvore arvore, int indice_atual){
 	
 	printf("Filhos:\n");
 	for(i=0; i<atual->num_adj; i++){
-		printf("    %d: ", arvore[(*atual->adj)[i]].visitado);
-		printE( arvore[(*atual->adj)[i]].e );
+		printf("    %d: ", arvore[atual->adj[i]].visitado);
+		printE( arvore[atual->adj[i]].e );
 	}
-	getchar();
 	
 	for(i=0; i<atual->num_adj; i++){
-		if(!arvore[(*atual->adj)[i]].visitado){
-			gerar_arvore(arvore, (*atual->adj)[i]);
+		if(!arvore[atual->adj[i]].visitado){
+			arvore[atual->adj[i]].visitado = 1;
+			gerar_arvore(arvore, atual->adj[i]);
 		}
 	}
 	nivel--;
