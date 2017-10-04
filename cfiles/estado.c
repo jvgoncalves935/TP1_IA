@@ -38,8 +38,8 @@ int indice_hash(Estado estado){
     hash+=potencia_10(4)*estado.canoa;
     hash+=potencia_10(3)*estado.esquerdo.mis;
     hash+=potencia_10(2)*estado.esquerdo.can;
-    hash+=potencia_10(2)*estado.direito.mis;
-    hash+=potencia_10(1)*estado.direito.can;
+    hash+=potencia_10(1)*estado.direito.mis;
+    hash+=potencia_10(0)*estado.direito.can;
     return hash;
 }
 
@@ -47,4 +47,8 @@ int indice_hash(Estado estado){
  * DEBUG
  */
 
-void printE(Estado e);
+void printE(Estado e){
+	printf("[M%d,C%d]%c-%c[M%d,C%d]\n", e.esquerdo.mis, e.esquerdo.can,
+										(e.canoa == ESQUERDO)?'>':' ', (e.canoa == DIREITO)?'<':' ',
+										e.direito.mis, e.direito.can);
+}

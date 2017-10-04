@@ -1,6 +1,7 @@
 #ifndef ESTADO_H
 #define ESTADO_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
 
@@ -22,9 +23,9 @@ typedef struct Estado{
     Lado esquerdo;
     Lado direito;
     Canoa canoa;
-};
+}Estado;
 
-Estado criar_estado(Lado esquerdo, Canoa canoa);
+Estado criar_estado(Lado lado, Canoa canoa);
 
 int lado_valido(Lado lado);
 
