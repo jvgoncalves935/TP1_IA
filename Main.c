@@ -27,6 +27,7 @@ int main(int argc, char** argv) {
         Estado solucao = criar_estado(l2,DIREITO);
         int inicio = indice_hash(inicial.e);
         printf("\nAPROFUNDAMENTO ITERATIVO:\n\n");
+        
         //aprofundamento_iterativo(arvore,&inicio,indice_hash(solucao),nivel_arvore);
         
         

@@ -112,13 +112,37 @@ void zerar_nodos_visitados(Arvore arvore, int tamanho){
 }
 
 int nivel_recursao=0;
-void aprofundamento_iterativo(Arvore arvore, int *atual, int solucao, int nivel_arvore){
-    if((*atual) != solucao){
-        int i;
-        arvore[*atual].visitado=1;
-        for(i=0;i<arvore[*atual].num_adj;i++){
+void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_arvore){
+    int achou=0, indice_adj=0;
+    while(!achou){
+        int index = indice_hash(atual->e);
+        if(index != solucao){
+            int i;
+            if(!arvore[index].visitado){
+               arvore[index].visitado=1;
+               //Largura
+               for(i=0;i<arvore[index].num_adj;i++){
+                   arvore[atual->adj[i]].visitado=1;
+                   if(indice_hash(arvore[atual->adj[i]]) == solucao){
+                       //adicionar_pilha
+                       achou = 1;
+                       break;   
+                   }
+               }
+               //Profundidade
+               
+               for(i=indice_adj;i<arvore[index].num_adj;i++){
+                   //adicionar_pilha
+                   //atual = topo_pilha
+                   
+               }   
+            }
             
+            
+        }else{
+            achou = 1;
         }
     }
+    
     
 }
