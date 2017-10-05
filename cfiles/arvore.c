@@ -53,9 +53,9 @@ void gerar_arvore(Arvore arvore, int indice_atual, int *nivel_arvore){
 	puts("");
 	
 	//TO-DO: organizar isso numa funçao.
-	No novo_no;
+	//No novo_no;
 	Estado estado_novo;
-	Lado esquerdo_novo, direito_novo;
+	Lado esquerdo_novo;
 	int mis, can;
 	int indice_novo;
 	
@@ -112,8 +112,66 @@ void zerar_nodos_visitados(Arvore arvore, int tamanho){
 }
 
 int nivel_recursao=0;
+
+void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou){
+    int indice_adj=0;
+    //
+    if(!achou){
+        int index = indice_hash(atual->e);
+        if(index != solucao){
+            int i;
+            if(!arvore[index].visitado){
+               arvore[index].visitado=1;
+               //Largura
+               for(i=0;i<arvore[index].num_adj;i++){
+                 
+                   printf("%d atual ",atual->adj[i]);
+                   arvore[atual->adj[i]].visitado=1;
+                   if(indice_hash(arvore[atual->adj[i]].e) == solucao){
+                       
+                       //getchar();
+                       (*achou) = 1;
+                       return;   
+                   }
+               }
+               printf("saiu\n");
+               //Profundidade
+               
+               for(i=indice_adj;i<arvore[index].num_adj;i++){
+                   int valor = indice_hash(arvore[index].e);
+                   addPile(pilha, (void *) &valor);
+                   printf("ADD PILHA: %d\n",indice_hash(arvore[index].e));
+                   aprofundamento_iterativo(arvore,atual,solucao,nivel_arvore+1,pilha,achou);
+                   if(!achou){
+                       removePile(pilha);
+                   }else{
+                       return;
+                   }
+                   /*
+                   i=indice_adj;
+                   
+                   
+                   getchar();
+                   atual = &arvore[i];
+                    * */
+                   //remover_pilha
+               }   
+            }
+            
+            
+        }else{
+            (*achou) = 1;
+            int valor = indice_hash(arvore[index].e);
+            addPile(pilha, (void *) &valor);
+            printf("ADD PILHA: %d\n",indice_hash(arvore[index].e));
+        }
+    }
+}
+
+/*
 void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_arvore){
     int achou=0, indice_adj=0;
+    Pile *pilha = getPile();
     while(!achou){
         int index = indice_hash(atual->e);
         if(index != solucao){
@@ -122,20 +180,28 @@ void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_a
                arvore[index].visitado=1;
                //Largura
                for(i=0;i<arvore[index].num_adj;i++){
+                 
+                   printf("%p atual ",atual->adj[i]);
                    arvore[atual->adj[i]].visitado=1;
-                   if(indice_hash(arvore[atual->adj[i]]) == solucao){
-                       //adicionar_pilha
+                   if(indice_hash(arvore[atual->adj[i]].e) == solucao){
+                       addPile(pilha, (int *) indice_hash(arvore[atual->adj[i]].e));
+                       printf("ADD PILHA: %d\n",indice_hash(arvore[atual->adj[i]].e));
+                       getchar();
                        achou = 1;
                        break;   
                    }
                }
+               printf("saiu\n");
                //Profundidade
                
-               for(i=indice_adj;i<arvore[index].num_adj;i++){
-                   //adicionar_pilha
-                   //atual = topo_pilha
-                   
-               }   
+               //for(i=indice_adj;i<arvore[index].num_adj;i++){
+                   i=indice_adj;
+                   addPile(pilha, (int *)indice_hash(arvore[index].e));
+                   printf("ADD PILHA: %d\n",indice_hash(arvore[index].e));
+                   getchar();
+                   atual = &arvore[i];
+                   //remover_pilha
+               //}   
             }
             
             
@@ -143,6 +209,8 @@ void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_a
             achou = 1;
         }
     }
+    printPile(pilha);
     
     
 }
+ * */

@@ -20,15 +20,15 @@ int main(int argc, char** argv) {
 	
 	printf("total: %d  nivel:%d\n", total,nivel_arvore);
         
-        int *resposta = malloc(nivel_arvore*sizeof(int));
         zerar_nodos_visitados(arvore,TAM_HASH);
         
         Lado l2 = {0,0};
         Estado solucao = criar_estado(l2,DIREITO);
-        int inicio = indice_hash(inicial.e);
+        //int inicio = indice_hash(inicial.e);
         printf("\nAPROFUNDAMENTO ITERATIVO:\n\n");
-        
-        //aprofundamento_iterativo(arvore,&inicio,indice_hash(solucao),nivel_arvore);
+        Pile *pilha = getPile();
+        int achou=0;
+        aprofundamento_iterativo(arvore,&arvore[indice_hash(e)],indice_hash(solucao),0,pilha,&achou);
         
         
 	return 0;

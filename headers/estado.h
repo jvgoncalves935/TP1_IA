@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils.h"
+#include "pilha.h"
 
 #define MAX_C 3
 #define MAX_M 3
