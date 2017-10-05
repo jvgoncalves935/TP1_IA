@@ -38,13 +38,16 @@ void adicionar_adj(Arvore arvore, int indice_atual, int indice_novo){
 }
 
 int nivel = 0, total = 1;
-void gerar_arvore(Arvore arvore, int indice_atual){
+void gerar_arvore(Arvore arvore, int indice_atual, int *nivel_arvore){
 	No *atual = &arvore[indice_atual];
 	
 	//Marca o nó como visitado.
 	//atual->visitado = 1;
 	
 	nivel++;
+        if(nivel>(*nivel_arvore)){
+            (*nivel_arvore) = nivel;
+        }
 	printf("\tPai: %d", arvore[atual->pai].visitado); printE(arvore[atual->pai].e);
 	printf("%d %d Atual: ", nivel, atual->visitado); printE(atual->e);
 	puts("");
@@ -95,8 +98,27 @@ void gerar_arvore(Arvore arvore, int indice_atual){
 	for(i=0; i<atual->num_adj; i++){
 		if(!arvore[atual->adj[i]].visitado){
 			arvore[atual->adj[i]].visitado = 1;
-			gerar_arvore(arvore, atual->adj[i]);
+			gerar_arvore(arvore, atual->adj[i],nivel_arvore);
 		}
 	}
 	nivel--;
+}
+
+void zerar_nodos_visitados(Arvore arvore, int tamanho){
+    int i;
+    for(i=0;i<tamanho;i++){
+        arvore[i].visitado=0;
+    }
+}
+
+int nivel_recursao=0;
+void aprofundamento_iterativo(Arvore arvore, int *atual, int solucao, int nivel_arvore){
+    if((*atual) != solucao){
+        int i;
+        arvore[*atual].visitado=1;
+        for(i=0;i<arvore[*atual].num_adj;i++){
+            
+        }
+    }
+    
 }

@@ -23,6 +23,10 @@ void adicionar_adj(Arvore arvore, int indice_atual, int indice_novo);
 
 void gerar_adj(Arvore arvore, int indice_atual, Lado lado, Canoa);
 
-void gerar_arvore(Arvore arvore, int indice_atual);
+void gerar_arvore(Arvore arvore, int indice_atual, int *nivel_arvore);
+
+void zerar_nodos_visitados(Arvore arvore, int tamanho);
+
+void aprofundamento_iterativo(Arvore arvore, int *atual, int solucao, int nivel_arvore);
 
 #endif /* ARVORE_H */
