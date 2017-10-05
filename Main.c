@@ -27,9 +27,12 @@ int main(int argc, char** argv) {
         //int inicio = indice_hash(inicial.e);
         printf("\nAPROFUNDAMENTO ITERATIVO:\n\n");
         Pile *pilha = getPile();
+        int valor = indice_hash(arvore[indice_hash(e)].e);
+        addPile(pilha, (void *) &valor);
+        printPile(pilha);
         int achou=0;
         aprofundamento_iterativo(arvore,&arvore[indice_hash(e)],indice_hash(solucao),0,pilha,&achou);
-        
+        printPile(pilha);
         
 	return 0;
 }

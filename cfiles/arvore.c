@@ -114,103 +114,51 @@ void zerar_nodos_visitados(Arvore arvore, int tamanho){
 int nivel_recursao=0;
 
 void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou){
-    int indice_adj=0;
+    //int indice_adj=0;
     //
-    if(!achou){
-        int index = indice_hash(atual->e);
+    int index = indice_hash(atual->e);
+    printf("index:%d  num_adj:%d\n",index,arvore[index].num_adj);
+    if(!(*achou)){
+        
+        //printf("index:%d\n",index);
         if(index != solucao){
             int i;
+            
             if(!arvore[index].visitado){
-               arvore[index].visitado=1;
-               //Largura
-               for(i=0;i<arvore[index].num_adj;i++){
-                 
-                   printf("%d atual ",atual->adj[i]);
-                   arvore[atual->adj[i]].visitado=1;
-                   if(indice_hash(arvore[atual->adj[i]].e) == solucao){
-                       
-                       //getchar();
+                //printf("COME %d\n",nivel_arvore);
+                arvore[index].visitado=1;
+                //Largura
+                
+                for(i=0;i<arvore[index].num_adj;i++){
+                    //arvore[atual->adj[i]].visitado=1;
+                    if(indice_hash(arvore[atual->adj[i]].e) == solucao){
                        (*achou) = 1;
                        return;   
-                   }
-               }
-               printf("saiu\n");
-               //Profundidade
-               
-               for(i=indice_adj;i<arvore[index].num_adj;i++){
-                   int valor = indice_hash(arvore[index].e);
-                   addPile(pilha, (void *) &valor);
-                   printf("ADD PILHA: %d\n",indice_hash(arvore[index].e));
-                   aprofundamento_iterativo(arvore,atual,solucao,nivel_arvore+1,pilha,achou);
-                   if(!achou){
-                       removePile(pilha);
-                   }else{
-                       return;
-                   }
-                   /*
-                   i=indice_adj;
-                   
-                   
-                   getchar();
-                   atual = &arvore[i];
-                    * */
-                   //remover_pilha
-               }   
+                    }
+                }
+                //Profundidade
+                printf("arvore_index:%d\n",arvore[index].num_adj);
+                for(i=0;i<arvore[index].num_adj;i++){
+                    int valor = indice_hash(arvore[arvore[index].adj[i]].e);
+                    addPile(pilha, (void *) &valor);
+                    printf("ADD PILHA: %d\n",valor);
+                    atual = &arvore[valor];
+                    aprofundamento_iterativo(arvore,atual,solucao,nivel_arvore+1,pilha,achou);
+                    if(!(*achou)){
+                        printf("REMOVE PILHA:%d\n",*((int*) pilha->top->obj));
+                        removePile(pilha);
+                    }else{
+                        return;
+                    }
+                    
+                }   
             }
-            
-            
         }else{
             (*achou) = 1;
             int valor = indice_hash(arvore[index].e);
             addPile(pilha, (void *) &valor);
             printf("ADD PILHA: %d\n",indice_hash(arvore[index].e));
+            printf("VAIEM GARALHOR");
         }
     }
 }
-
-/*
-void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_arvore){
-    int achou=0, indice_adj=0;
-    Pile *pilha = getPile();
-    while(!achou){
-        int index = indice_hash(atual->e);
-        if(index != solucao){
-            int i;
-            if(!arvore[index].visitado){
-               arvore[index].visitado=1;
-               //Largura
-               for(i=0;i<arvore[index].num_adj;i++){
-                 
-                   printf("%p atual ",atual->adj[i]);
-                   arvore[atual->adj[i]].visitado=1;
-                   if(indice_hash(arvore[atual->adj[i]].e) == solucao){
-                       addPile(pilha, (int *) indice_hash(arvore[atual->adj[i]].e));
-                       printf("ADD PILHA: %d\n",indice_hash(arvore[atual->adj[i]].e));
-                       getchar();
-                       achou = 1;
-                       break;   
-                   }
-               }
-               printf("saiu\n");
-               //Profundidade
-               
-               //for(i=indice_adj;i<arvore[index].num_adj;i++){
-                   i=indice_adj;
-                   addPile(pilha, (int *)indice_hash(arvore[index].e));
-                   printf("ADD PILHA: %d\n",indice_hash(arvore[index].e));
-                   getchar();
-                   atual = &arvore[i];
-                   //remover_pilha
-               //}   
-            }
-            
-            
-        }else{
-            achou = 1;
-        }
-    }
-    printPile(pilha);
-    
-    
-}
- * */

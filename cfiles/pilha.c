@@ -47,11 +47,31 @@ void removePile(Pile *pile){
 
 void printPile(Pile *pile){
     No_pilha *temp = pile->top;
-    printf("PILHA DE RESULTADOS\n");
+    int cont=0;
     while(temp != NULL){
-        printf("%d\n",temp->obj);
+        cont++;
         temp = temp->prev;
     }
+    
+    temp = pile->top;
+    int *vetor = malloc(cont*sizeof(int));
+    int i=cont;
+    if(cont){
+        printf("\nPILHA DE RESULTADOS\n");
+        while(temp != NULL){
+            //vetor[i]=);
+            printf("%d\n",*((int*) temp->obj));
+            i--;
+            temp = temp->prev;
+        }
+    
+        for(i=0;i<cont;i++){
+            
+        }
+    }else{
+        printf("\nPILHA VAZIA!\n");
+    }
+    
     free(temp);
 }
 
