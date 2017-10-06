@@ -17,7 +17,7 @@ Arvore criar_arvore(){
 }
 
 int acao_valida(Estado estado, int mis_c, int can_c){
-	if(mis_c + can_c > 0 && mis_c + can_c <= 2 && (mis_c <= mis_c || mis_c == 0)){
+	if(mis_c + can_c > 0 && mis_c + can_c <= 2 && (can_c <= mis_c || mis_c == 0)){
 
 		if(estado_valido(estado)){
 			return 1;
@@ -117,6 +117,7 @@ void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_a
     //int indice_adj=0;
     //
     int index = indice_hash(atual->e);
+    int *valor = malloc(sizeof(int));
     printf("index:%d  num_adj:%d\n",index,arvore[index].num_adj);
     if(!(*achou)){
         
@@ -128,37 +129,46 @@ void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_a
                 //printf("COME %d\n",nivel_arvore);
                 arvore[index].visitado=1;
                 //Largura
-                
+                printf("ADJ:\n");
                 for(i=0;i<arvore[index].num_adj;i++){
                     //arvore[atual->adj[i]].visitado=1;
+                    printf("%d ",indice_hash(arvore[atual->adj[i]].e));
                     if(indice_hash(arvore[atual->adj[i]].e) == solucao){
                        (*achou) = 1;
+                       *valor = indice_hash(arvore[atual->adj[i]].e);
+                       addPile(pilha, (void *) valor);
+                       printf("ADD PILHA: %d\n",*valor);
                        return;   
                     }
                 }
+                printf("\n");
                 //Profundidade
                 printf("arvore_index:%d\n",arvore[index].num_adj);
                 for(i=0;i<arvore[index].num_adj;i++){
-                    int valor = indice_hash(arvore[arvore[index].adj[i]].e);
-                    addPile(pilha, (void *) &valor);
-                    printf("ADD PILHA: %d\n",valor);
-                    atual = &arvore[valor];
-                    aprofundamento_iterativo(arvore,atual,solucao,nivel_arvore+1,pilha,achou);
-                    if(!(*achou)){
-                        printf("REMOVE PILHA:%d\n",*((int*) pilha->top->obj));
-                        removePile(pilha);
-                    }else{
-                        return;
+                    if(!arvore[arvore[index].adj[i]].visitado){
+                        *valor = indice_hash(arvore[arvore[index].adj[i]].e);
+                        addPile(pilha, (void *) valor);
+                        printf("ADD PILHA: %d\n",*valor);
+                        atual = &arvore[*valor];
+                        aprofundamento_iterativo(arvore,atual,solucao,nivel_arvore+1,pilha,achou);
+                        if(!(*achou)){
+                            printf("REMOVE PILHA:%d\n",*((int*) pilha->top->obj));
+                            removePile(pilha);
+                        }else{
+                            printf("BRAVO!\n");
+                            return;
+                        }
                     }
                     
                 }   
             }
         }else{
             (*achou) = 1;
-            int valor = indice_hash(arvore[index].e);
-            addPile(pilha, (void *) &valor);
-            printf("ADD PILHA: %d\n",indice_hash(arvore[index].e));
-            printf("VAIEM GARALHOR");
+            
+            *valor = indice_hash(arvore[index].e);
+            addPile(pilha, (void *) valor);
+            printf("ADD PILHA: %d\n",*valor);
+            printf("RESULTADO ENCONTRADO\n");
         }
     }
 }

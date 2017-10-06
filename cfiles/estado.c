@@ -45,6 +45,36 @@ int indice_hash(Estado estado){
     return hash;
 }
 
+void exibir_estado(int indice_hash){
+    int i,j,hash=indice_hash;
+    int *vetor = malloc(5*sizeof(int));
+    int coeficiente=4,aux=0,valor;
+    
+    for(i=0;i<5;i++){
+        valor=1;
+        for(j=0;j<coeficiente;j++){
+            valor = valor*10;
+        }
+        //printf("valor:%d hash:%d ",valor,hash);
+        while(hash>=valor){
+            hash = hash - valor;
+            aux++;
+        }
+        //printf("%d\n",hash);
+        vetor[i]=aux;
+        aux=0;
+        coeficiente--;
+    }
+    
+    if(!vetor[0]){
+        printf("[Canoa: Esquerdo]\t");
+    }else{
+        printf("[Canoa: Direito]\t");
+    }
+    printf("Esq:[MIS:%d CAN:%d]\t\tDir:[MIS:%d CAN:%d]\n",vetor[1],vetor[2],vetor[3],vetor[4]);
+    //printf("\n");
+}
+
 /*
  * DEBUG
  */

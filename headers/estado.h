@@ -37,6 +37,7 @@ Lado calcula_lado_oposto(Lado lado);
 
 int indice_hash(Estado estado);
 
+void exibir_estado(int indice_hash);
 /*
  * DEBUG
  */

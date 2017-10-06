@@ -1,4 +1,5 @@
 #include "pilha.h"
+#include "estado.h"
 
 Pile *getPile(){
         
@@ -59,14 +60,14 @@ void printPile(Pile *pile){
     if(cont){
         printf("\nPILHA DE RESULTADOS\n");
         while(temp != NULL){
-            //vetor[i]=);
-            printf("%d\n",*((int*) temp->obj));
+            vetor[i]=*((int*) temp->obj);
             i--;
             temp = temp->prev;
         }
     
-        for(i=0;i<cont;i++){
-            
+        for(i=1;i<=cont;i++){
+            //printf("i:%d    %d\n",i,vetor[i]);
+            exibir_estado(vetor[i]);
         }
     }else{
         printf("\nPILHA VAZIA!\n");

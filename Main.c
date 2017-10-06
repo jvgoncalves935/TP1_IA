@@ -34,5 +34,7 @@ int main(int argc, char** argv) {
         aprofundamento_iterativo(arvore,&arvore[indice_hash(e)],indice_hash(solucao),0,pilha,&achou);
         printPile(pilha);
         
+        //exibir_estado(10033);
+        
 	return 0;
 }
