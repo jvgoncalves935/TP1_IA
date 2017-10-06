@@ -66,7 +66,6 @@ void printPile(Pile *pile){
         }
     
         for(i=1;i<=cont;i++){
-            //printf("i:%d    %d\n",i,vetor[i]);
             exibir_estado(vetor[i]);
         }
     }else{

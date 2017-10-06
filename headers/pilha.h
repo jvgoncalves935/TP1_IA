@@ -30,4 +30,6 @@ void removePile(Pile *pile);
 
 void printPile(Pile *pile);
 
+void deletePile(Pile *pile);
+
 #endif

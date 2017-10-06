@@ -55,12 +55,11 @@ void exibir_estado(int indice_hash){
         for(j=0;j<coeficiente;j++){
             valor = valor*10;
         }
-        //printf("valor:%d hash:%d ",valor,hash);
+        
         while(hash>=valor){
             hash = hash - valor;
             aux++;
         }
-        //printf("%d\n",hash);
         vetor[i]=aux;
         aux=0;
         coeficiente--;
@@ -72,7 +71,6 @@ void exibir_estado(int indice_hash){
         printf("[Canoa: Direito]\t");
     }
     printf("Esq:[MIS:%d CAN:%d]\t\tDir:[MIS:%d CAN:%d]\n",vetor[1],vetor[2],vetor[3],vetor[4]);
-    //printf("\n");
 }
 
 /*
