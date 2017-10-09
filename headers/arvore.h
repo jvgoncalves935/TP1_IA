@@ -27,6 +27,6 @@ void gerar_arvore(Arvore arvore, int indice_atual, int *nivel_arvore);
 
 void zerar_nodos_visitados(Arvore arvore, int tamanho);
 
-void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou);
+void aprofundamento_iterativo_recursivo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou);
 
 #endif /* ARVORE_H */

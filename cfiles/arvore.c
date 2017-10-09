@@ -113,7 +113,7 @@ void zerar_nodos_visitados(Arvore arvore, int tamanho){
 
 int nivel_recursao=0;
 
-void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou){
+void aprofundamento_iterativo_recursivo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou){
     int index = indice_hash(atual->e);
     int *valor = malloc(sizeof(int));
     if(!(*achou)){
@@ -138,7 +138,7 @@ void aprofundamento_iterativo(Arvore arvore, No *atual, int solucao, int nivel_a
                         *valor = indice_hash(arvore[arvore[index].adj[i]].e);
                         addPile(pilha, (void *) valor);
                         atual = &arvore[*valor];
-                        aprofundamento_iterativo(arvore,atual,solucao,nivel_arvore+1,pilha,achou);
+                        aprofundamento_iterativo_recursivo(arvore,atual,solucao,nivel_arvore+1,pilha,achou);
                         if(!(*achou)){
                             removePile(pilha);
                         }else{

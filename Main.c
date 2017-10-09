@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
         addPile(pilha, (void *) &valor);
         int achou=0;
         
-        aprofundamento_iterativo(arvore,&arvore[indice_hash(e)],indice_hash(solucao),0,pilha,&achou);
+        aprofundamento_iterativo_recursivo(arvore,&arvore[indice_hash(e)],indice_hash(solucao),0,pilha,&achou);
         
         printPile(pilha);
         deletePile(pilha);
