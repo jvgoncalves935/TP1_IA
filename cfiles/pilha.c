@@ -1,7 +1,7 @@
 #include "pilha.h"
 #include "estado.h"
 
-Pile *getPile(){
+Pile *newPile(){
         
     Pile *temp = malloc(sizeof(Pile));
     temp->size = 0;
@@ -48,16 +48,11 @@ void removePile(Pile *pile){
 
 void printPile(Pile *pile){
     No_pilha *temp = pile->top;
-    int cont=0;
-    while(temp != NULL){
-        cont++;
-        temp = temp->prev;
-    }
     
     temp = pile->top;
-    int *vetor = malloc(cont*sizeof(int));
-    int i=cont;
-    if(cont){
+    int *vetor = malloc(pile->size*sizeof(int));
+    int i=pile->size-1;
+    if(i>0){
         printf("\nPILHA DE RESULTADOS\n");
         while(temp != NULL){
             vetor[i]=*((int*) temp->obj);
@@ -65,7 +60,7 @@ void printPile(Pile *pile){
             temp = temp->prev;
         }
     
-        for(i=1;i<=cont;i++){
+        for(i=0;i<pile->size;i++){
             exibir_estado(vetor[i]);
         }
     }else{

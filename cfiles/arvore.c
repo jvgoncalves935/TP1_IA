@@ -154,3 +154,52 @@ void aprofundamento_iterativo_recursivo(Arvore arvore, No *atual, int solucao, i
         }
     }
 }
+
+Pile *aprofundamento_iterativo(Arvore arvore, int indiceAtual, int solucao){        
+    
+    Pile *pilha = newPile();
+    int *indHash = malloc(sizeof(int));
+    *indHash = indiceAtual;
+    arvore[*indHash].visitado = 1;
+    addPile(pilha, (void *)indHash);        
+    if(*indHash == solucao){ // se a raiz for a soluﾃｧﾃ｣o 
+                             // retorna a raiz.   
+        return pilha;
+    }
+    int v = indiceAtual; // recebe o hash do no atual.
+    int j, proxV; // proxV recebe o prﾃｳximo vertice a ser 
+                       // visitado no retorno do algorimto    
+    while(1){ // enquanto a soluﾃｧﾃ｣o nﾃ｣o for obtida...
+                        
+        j = 0;
+        proxV = -1;        
+        while(j < arvore[v].num_adj){
+            
+            int *hashTemp = malloc(sizeof(int));
+            *hashTemp = indice_hash(arvore[arvore[v].adj[j]].e);                
+            if(*hashTemp == solucao){ // Se a soluﾃｧﾃ｣o for encontrada.
+                
+                addPile(pilha, (void *)hashTemp);                                
+                return pilha;
+            }else if(!arvore[arvore[v].adj[j]].visitado && proxV == -1){
+                
+                proxV = indice_hash(arvore[arvore[v].adj[j]].e);                
+            }
+            j++;            
+        }
+        int *temp;
+        if(proxV == -1){ // Se nﾃ｣o encontrou soluﾃｧﾃ｣o e nao tem mais vizinhos para ir.
+                        
+            removePile(pilha);
+            temp = (int *)pilha->top->obj;            
+            v = *temp;            
+        }else{ // Se nﾃ｣o encontrar a soluﾃｧﾃ｣o mas existir vizinhos para ir.
+            
+            temp = malloc(sizeof(int));
+            *temp = proxV;
+            addPile(pilha, (void *)temp);
+            v = proxV;
+            arvore[v].visitado = 1;            
+        }                
+    }        
+}

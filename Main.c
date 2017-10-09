@@ -25,15 +25,24 @@ int main(int argc, char** argv) {
         Lado l2 = {0,0};
         Estado solucao = criar_estado(l2,DIREITO);
         
+        
+        
+	printf("\nAPROFUNDAMENTO ITERATIVO:\n\n");
+        Pile *pilha;
+        pilha = aprofundamento_iterativo(arvore,indice_hash(e),indice_hash(solucao));
+        printPile(pilha);
+        deletePile(pilha);
+        zerar_nodos_visitados(arvore,TAM_HASH);
+        
+        
         printf("\nAPROFUNDAMENTO ITERATIVO (RECURSIVO):\n\n");
-        Pile *pilha = getPile();
+        pilha = newPile();
         int valor = indice_hash(arvore[indice_hash(e)].e);
         addPile(pilha, (void *) &valor);
         int achou=0;
-        
         aprofundamento_iterativo_recursivo(arvore,&arvore[indice_hash(e)],indice_hash(solucao),0,pilha,&achou);
-        
         printPile(pilha);
         deletePile(pilha);
-	return 0;
+        
+        return 0;
 }

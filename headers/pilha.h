@@ -20,7 +20,7 @@ typedef struct pile {
     int size;
 } Pile;
 
-Pile *getPile();
+Pile *newPile();
 
 int isEmpty(Pile *head);
 
