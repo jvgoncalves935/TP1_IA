@@ -29,4 +29,7 @@ void zerar_nodos_visitados(Arvore arvore, int tamanho);
 
 void aprofundamento_iterativo(Arvore arvore, int *atual, int solucao, int nivel_arvore);
 
+void bi_direcional(Arvore arvore, Estado ini, Canoa lado_ini);
+
+
 #endif /* ARVORE_H */

@@ -122,3 +122,93 @@ void aprofundamento_iterativo(Arvore arvore, int *atual, int solucao, int nivel_
     }
     
 }
+
+/* Busca bi-direcional*/
+
+///Busca em largura para funcionar no bi-direcional
+int larg(int *ini, int *end, int *qnt, No fila[30],
+	int busca[TAM_HASH], No *arvore, int flag){
+	int j, hash, count=0;
+	while((*ini) < (*end)){ ///Enquanto não acabou a fila
+		No no_atual = fila[((*ini))], aux; //Pega um nó
+		hash = indice_hash(no_atual.e); //Gera a hash do nó
+
+		///Verifica quais filhos do nó não foram adicionados
+		for(j = 0; j < no_atual.num_adj; j++){ 
+			aux = arvore[no_atual.adj[j]];
+			if(busca[indice_hash(aux.e)] == 0){ ///Se não foi adicionadi
+				busca[indice_hash(aux.e)] = flag*hash;
+				fila[(*end) + count++] = arvore[no_atual.adj[j]]; 
+				(*qnt)++;
+			}else ///Achou a ponta do caminho do lado oposto
+				if(busca[indice_hash(aux.e)]*flag < 0){ 
+				return indice_hash(aux.e); ///Encontrou uma rota
+			}
+		}
+		(*ini)++; (*qnt)--;
+	}
+	count=0;
+	*end += *qnt; *end %= 30;
+	return 0;
+}
+
+void printH(int hash){ ///Imprime a hash no formato de exibição do usuario
+	printE(criar_estado_de_hash(hash));
+}
+
+///Imprime retrocedendo à raiz de inicio
+void imprime_ini(int busca[TAM_HASH], int agente, int end){
+	if(agente==end){
+		return;
+	}
+	agente=busca[agente];
+	if(agente < 0)agente*=-1;
+	imprime_ini(busca,agente,end);
+	printH(agente);
+	return;
+}
+
+void bi_direcional(Arvore arvore, Estado ini, Canoa lado_ini){
+	///Inicializando os lados
+	//Gerando o lado oposto ao inicial
+	Estado end = criar_estado((Lado){0,0},1-lado_ini); 
+
+	///Definindo os dois lados da busca
+	int busca[TAM_HASH] = {0};
+	//Define um pai inicial para o ini
+	busca[indice_hash(ini)] = 1*indice_hash(ini); 
+	//Define um pai inicial para o end
+	busca[indice_hash(end)] =-1*indice_hash(end); 
+
+	//Descritores fila para a busca no inicio
+	int i_ini = 0, i_end = 0, i_qnt = 0; 
+	//Descritores fila para a busca no final
+	int e_ini = 0, e_end = 0, e_qnt = 0; 
+	No i_fila[30], e_fila[30];
+	i_fila[i_end++] = arvore[indice_hash(ini)]; i_qnt++;
+	e_fila[e_end++] = arvore[indice_hash(end)]; e_qnt++;
+
+	int agente, objetivo;
+
+	while(1){
+		agente = 
+		larg(&i_ini, &i_end, &i_qnt, ///Partindo do inicio
+			i_fila, busca, arvore,1);
+		objetivo =
+		larg(&e_ini, &e_end, &e_qnt, ///Partindo do final
+			e_fila, busca, arvore,-1);
+
+		if(agente > 0 || objetivo > 0){
+			break;
+		}
+	}
+
+	imprime_ini(busca,objetivo,indice_hash(ini));
+	printH(objetivo);
+	printH(agente);
+	while(agente!=indice_hash(end)){
+		printH(busca[agente]*-1);
+		agente = busca[agente];
+		if(agente < 0)agente*=-1;
+	}
+}

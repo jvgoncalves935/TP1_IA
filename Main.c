@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
         int inicio = indice_hash(inicial.e);
         printf("\nAPROFUNDAMENTO ITERATIVO:\n\n");
         //aprofundamento_iterativo(arvore,&inicio,indice_hash(solucao),nivel_arvore);
-        
-        
+        printf("\nBusca bi-direcional:\n\n");
+        bi_direcional(arvore,e,ESQUERDO);
 	return 0;
 }
