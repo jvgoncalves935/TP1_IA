@@ -7,6 +7,7 @@ typedef struct No{
     Estado e;       ///Estado correspondente ao nó.
     int num_adj;    ///Número de nós adjacentes.
     int *adj;       ///Endereco dos nós adjacentes na hash.
+    int criado;     ///Se o nó já foi criado. (usado na geração da árvore)
     int visitado;   ///Indica se o nó ja foi visitado.
     int pai;        ///Indice do pai na tabela de hash.
 }No;
@@ -23,12 +24,8 @@ void adicionar_adj(Arvore arvore, int indice_atual, int indice_novo);
 
 void gerar_adj(Arvore arvore, int indice_atual, Lado lado, Canoa);
 
-void gerar_arvore(Arvore arvore, int indice_atual, int *nivel_arvore);
+void gerar_arvore(Arvore arvore, int indice_atual);
 
 void zerar_nodos_visitados(Arvore arvore, int tamanho);
-
-void aprofundamento_iterativo_recursivo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou);
-
-Pile *aprofundamento_iterativo(Arvore arvore, int indiceAtual, int solucao);
 
 #endif /* ARVORE_H */

@@ -10,6 +10,18 @@ Estado criar_estado(Lado esquerdo, Canoa canoa){
     return estado;
 }
 
+Estado criar_estado_de_hash(int hash){
+	int vet[5];
+	int i;
+	
+	for(i=0; i<5; i++){
+		vet[i] = hash % 10;
+		hash /= 10;
+	}
+	
+	return *((Estado *)vet);
+}
+
 int lado_valido(Lado lado){
     if(lado.mis == 0){
         return 1;
@@ -34,7 +46,7 @@ Lado calcula_lado_oposto(Lado lado){
 }
 
 int indice_hash(Estado estado){
-    int hash=0;
+    int hash = 0;
 	int r = 1;
 	int *vet = (int *)&estado;
 	int i;
