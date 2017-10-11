@@ -38,11 +38,9 @@ Lado calcula_lado_oposto(Lado lado);
 
 int indice_hash(Estado estado);
 
-void exibir_estado(int indice_hash);
-/*
- * DEBUG
- */
-
 void printE(Estado e);
+
+///Imprime a hash no formato de exibição do usuario
+void printH(int hash);
 
 #endif /* ESTADO_H */

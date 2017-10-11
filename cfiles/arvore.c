@@ -13,8 +13,14 @@ No criar_no(Estado e, int pai){
     return no;
 }
 
-Arvore criar_arvore(){
-    return calloc(MAX_HASH, sizeof(No));
+Arvore criar_arvore(int hash_inicial){
+	Arvore arvore = calloc(MAX_HASH, sizeof(No));
+	
+	arvore[hash_inicial] = criar_no(criar_estado_de_hash(hash_inicial), 0);
+	
+	gerar_arvore(arvore, hash_inicial);
+	
+    return arvore;
 }
 
 int acao_valida(Estado estado, int mis_c, int can_c){
@@ -84,11 +90,4 @@ void gerar_arvore(Arvore arvore, int indice_atual){
 		}
 	}
 	nivel--;
-}
-
-void zerar_nodos_visitados(Arvore arvore, int tamanho){
-    int i;
-    for(i=0;i<tamanho;i++){
-        arvore[i].visitado = 0;
-    }
 }

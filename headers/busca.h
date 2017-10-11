@@ -20,6 +20,7 @@ Pile *aprofundamento_iterativo(Arvore arvore, int indiceAtual, int solucao);
 
 
 /* BUSCA BI-DIRECIONAL */
-//TO-DO
+
+void busca_bi_direcional();
 
 #endif /* BUSCA_H */

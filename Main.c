@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
 			busca_aprofundamento_iterativo_recursivo();
 			break;
 		case 3:
-			//TO-DO: busca_bidirecional();
+			busca_bi_direcional();
 			break;
 		default:
 			printf("Escolha invalida.\n");
