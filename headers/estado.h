@@ -3,11 +3,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "utils.h"
 
 #define MAX_C 3
 #define MAX_M 3
-#define TAM_HASH 13300
+#define MAX_HASH 13300
 
 typedef enum Canoa{
     ESQUERDO,
@@ -27,6 +28,8 @@ typedef struct Estado{
 
 Estado criar_estado(Lado lado, Canoa canoa);
 
+Estado criar_estado_de_hash(int hash);
+
 int lado_valido(Lado lado);
 
 int estado_valido(Estado estado);
@@ -35,6 +38,7 @@ Lado calcula_lado_oposto(Lado lado);
 
 int indice_hash(Estado estado);
 
+void exibir_estado(int indice_hash);
 /*
  * DEBUG
  */

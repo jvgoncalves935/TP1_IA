@@ -1,34 +1,31 @@
-#include "arvore.h"
+#include "busca.h"
 
 int main(int argc, char** argv) {
-	Lado l = {3, 3};
-	Estado e = criar_estado(l, ESQUERDO);
-
-	Arvore arvore = criar_arvore();
-
-	No inicial = criar_no(e, 0);
 	
-	extern int total;
-        int nivel_arvore=0;
-
-	arvore[indice_hash(inicial.e)] = inicial;
-	arvore[indice_hash(inicial.e)].visitado = 1;
-
-	gerar_arvore(arvore, indice_hash(inicial.e),&nivel_arvore);
-
-	printE(arvore[indice_hash(inicial.e)].e);
+	int escolha;
+	printf(	"Escolha uma opcao\n\n"
+			"0. Sair\n"
+			"1. Aprofundamento Iterativo\n"
+			"2. Aprofundamento Iterativo Recursivo\n"
+			"3. Busca Bi-Direcional\n"
+			"Escolha: ");
+	scanf("%d", &escolha);
 	
-	printf("total: %d  nivel:%d\n", total,nivel_arvore);
-        
-        int *resposta = malloc(nivel_arvore*sizeof(int));
-        zerar_nodos_visitados(arvore,TAM_HASH);
-        
-        Lado l2 = {0,0};
-        Estado solucao = criar_estado(l2,DIREITO);
-        int inicio = indice_hash(inicial.e);
-        printf("\nAPROFUNDAMENTO ITERATIVO:\n\n");
-        //aprofundamento_iterativo(arvore,&inicio,indice_hash(solucao),nivel_arvore);
-        printf("\nBusca bi-direcional:\n\n");
-        bi_direcional(arvore,e,ESQUERDO);
+	switch(escolha){
+		case 0:
+			break;
+		case 1:
+			busca_aprofundamento_iterativo();
+			break;
+		case 2:
+			busca_aprofundamento_iterativo_recursivo();
+			break;
+		case 3:
+			//TO-DO: busca_bidirecional();
+			break;
+		default:
+			printf("Escolha invalida.\n");
+			break;
+	}
 	return 0;
 }

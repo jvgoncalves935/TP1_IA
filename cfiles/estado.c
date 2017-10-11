@@ -10,6 +10,18 @@ Estado criar_estado(Lado esquerdo, Canoa canoa){
     return estado;
 }
 
+Estado criar_estado_de_hash(int hash){
+	int vet[5];
+	int i;
+	
+	for(i=0; i<5; i++){
+		vet[i] = hash % 10;
+		hash /= 10;
+	}
+	
+	return *((Estado *)vet);
+}
+
 int lado_valido(Lado lado){
     if(lado.mis == 0){
         return 1;
@@ -34,7 +46,7 @@ Lado calcula_lado_oposto(Lado lado){
 }
 
 int indice_hash(Estado estado){
-    int hash=0;
+    int hash = 0;
 	int r = 1;
 	int *vet = (int *)&estado;
 	int i;
@@ -43,6 +55,34 @@ int indice_hash(Estado estado){
 		r *= 10;
 	}
     return hash;
+}
+
+void exibir_estado(int indice_hash){
+    int i,j,hash=indice_hash;
+    int *vetor = malloc(5*sizeof(int));
+    int coeficiente=4,aux=0,valor;
+    
+    for(i=0;i<5;i++){
+        valor=1;
+        for(j=0;j<coeficiente;j++){
+            valor = valor*10;
+        }
+        
+        while(hash>=valor){
+            hash = hash - valor;
+            aux++;
+        }
+        vetor[i]=aux;
+        aux=0;
+        coeficiente--;
+    }
+    
+    if(!vetor[0]){
+        printf("[Canoa: Esquerdo]\t");
+    }else{
+        printf("[Canoa: Direito]\t");
+    }
+    printf("Esq:[MIS:%d CAN:%d]\t\tDir:[MIS:%d CAN:%d]\n",vetor[1],vetor[2],vetor[3],vetor[4]);
 }
 
 /*

@@ -3,14 +3,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "estado.h"
 
-typedef struct no *pointer;
+typedef struct no_pilha *pointer;
 
-typedef struct no {
+typedef struct no_pilha {
     
     void *obj;
     pointer prev; 
-}No;
+}No_pilha;
 
 
 
@@ -20,12 +21,16 @@ typedef struct pile {
     int size;
 } Pile;
 
-Pile *getPile();
+Pile *newPile();
 
 int isEmpty(Pile *head);
 
 void addPile(Pile *pile, void *obj);
 
 void removePile(Pile *pile);
+
+void printPile(Pile *pile);
+
+void deletePile(Pile *pile);
 
 #endif
