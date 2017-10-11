@@ -12,59 +12,53 @@ Estado estado_final = {{3,3}, {0,0}, DIREITO};
 void busca_aprofundamento_iterativo(){
 	Arvore arvore = criar_arvore(HASH_INICIAL);
 	
-	Pile *pilha = aprofundamento_iterativo(arvore, HASH_INICIAL, HASH_FINAL);
-	printPile(pilha);
-	deletePile(pilha);
-}
-
-Pile *aprofundamento_iterativo(Arvore arvore, int indiceInicial, int indiceFinal){        
-    
-    Pile *pilha = newPile();
+	Pile *pilha = newPile();
     int *indHash = malloc(sizeof(int));
-    *indHash = indiceInicial;
+    *indHash = HASH_INICIAL;
     arvore[*indHash].visitado = 1;
-    addPile(pilha, (void *)indHash);        
-    if(*indHash == indiceFinal){ // se a raiz for a solução 
-                             // retorna a raiz.   
-        return pilha;
-    }
-    int v = indiceInicial; // recebe o hash do no inicial.
-    int j, proxV; // proxV recebe o próximo vertice a ser 
-                  // visitado no retorno do algorimto    
+    addPile(pilha, (void *)indHash);
+
+    int v = HASH_INICIAL; // recebe o hash do no inicial.
+    int j, proxV; // proxV recebe o próximo vertice a ser
+                  // visitado no retorno do algorimto
     while(1){ // enquanto a solução não for obtida...
-                        
         j = 0;
-        proxV = -1;        
+        proxV = -1;
         while(j < arvore[v].num_adj){
             
             int *hashTemp = malloc(sizeof(int));
-            *hashTemp = indice_hash(arvore[arvore[v].adj[j]].e);                
-            if(*hashTemp == indiceFinal){ // Se a solução for encontrada.
+            *hashTemp = indice_hash(arvore[arvore[v].adj[j]].e);
+            if(*hashTemp == HASH_FINAL){ // Se a solução for encontrada.
                 
-                addPile(pilha, (void *)hashTemp);                                
-                return pilha;
+                addPile(pilha, (void *)hashTemp);
+                goto label_fim;
             }else if(!arvore[arvore[v].adj[j]].visitado && proxV == -1){
                 
-                proxV = indice_hash(arvore[arvore[v].adj[j]].e);                
+                proxV = indice_hash(arvore[arvore[v].adj[j]].e);
             }
-            j++;            
+            j++;
         }
         int *temp;
         if(proxV == -1){ // Se não encontrou solução e nao tem mais vizinhos para ir.
-                        
+
             removePile(pilha);
-            temp = (int *)pilha->top->obj;            
-            v = *temp;            
+            temp = (int *)pilha->top->obj;
+            v = *temp;
         }else{ // Se não encontrar a solução mas existir vizinhos para ir.
             
             temp = malloc(sizeof(int));
             *temp = proxV;
             addPile(pilha, (void *)temp);
             v = proxV;
-            arvore[v].visitado = 1;            
-        }                
-    }        
+            arvore[v].visitado = 1;
+        }
+    }
+	
+	label_fim:
+	printPile(pilha);
+	deletePile(pilha);
 }
+
 
 /* APROFUNDAMENTO ITERATIVO RECURSIVO */
 

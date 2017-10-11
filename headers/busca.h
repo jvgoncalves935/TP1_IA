@@ -16,8 +16,6 @@ void aprofundamento_iterativo_recursivo(Arvore arvore, int indice_atual, Pile *p
 
 void busca_aprofundamento_iterativo();
 
-Pile *aprofundamento_iterativo(Arvore arvore, int indiceAtual, int solucao);
-
 
 /* BUSCA BI-DIRECIONAL */
 
