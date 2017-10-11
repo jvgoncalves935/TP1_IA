@@ -1,5 +1,4 @@
 #include "pilha.h"
-#include "estado.h"
 
 Pile *newPile(){
         
@@ -61,7 +60,7 @@ void printPile(Pile *pile){
         }
     
         for(i=0;i<pile->size;i++){
-            exibir_estado(vetor[i]);
+            printE(criar_estado_de_hash(vetor[i]));
         }
     }else{
         printf("\nPILHA VAZIA!\n");

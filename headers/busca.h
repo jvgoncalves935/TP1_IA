@@ -8,7 +8,7 @@
 
 void busca_aprofundamento_iterativo_recursivo();
 
-void aprofundamento_iterativo_recursivo(Arvore arvore, No *atual, int solucao, int nivel_arvore, Pile *pilha, int *achou);
+void aprofundamento_iterativo_recursivo(Arvore arvore, int indice_atual, Pile *pilha, int *achou);
 
 
 

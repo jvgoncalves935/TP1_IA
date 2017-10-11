@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "estado.h"
 
 typedef struct no_pilha *pointer;
 
