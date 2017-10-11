@@ -17,7 +17,7 @@ int isEmpty(Pile *head){
     return 1;
 }
 
-void addPile(Pile *pile, void *obj){
+void addPile(Pile *pile, int obj){
     
     No_pilha *temp = malloc(sizeof(No_pilha));
     temp->obj = obj;
@@ -45,7 +45,7 @@ void removePile(Pile *pile){
     pile->size--;
 }
 
-void printPile(Pile *pile){
+void printPile(Pile *pile, void (*printDado)()){
     No_pilha *temp = pile->top;
     
     temp = pile->top;
@@ -54,13 +54,13 @@ void printPile(Pile *pile){
     if(i>0){
         printf("\nPILHA DE RESULTADOS\n");
         while(temp != NULL){
-            vetor[i]=*((int*) temp->obj);
+            vetor[i]= temp->obj;
             i--;
             temp = temp->prev;
         }
     
         for(i=0;i<pile->size;i++){
-            printE(criar_estado_de_hash(vetor[i]));
+            printDado(vetor[i]);
         }
     }else{
         printf("\nPILHA VAZIA!\n");

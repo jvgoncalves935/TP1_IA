@@ -13,10 +13,8 @@ void busca_aprofundamento_iterativo(){
 	Arvore arvore = criar_arvore(HASH_INICIAL);
 	
 	Pile *pilha = newPile();
-    int *indHash = malloc(sizeof(int));
-    *indHash = HASH_INICIAL;
-    arvore[*indHash].visitado = 1;
-    addPile(pilha, (void *)indHash);
+	arvore[HASH_INICIAL].visitado = 1;
+    addPile(pilha, HASH_INICIAL);
 
     int v = HASH_INICIAL; // recebe o hash do no inicial.
     int j, proxV; // proxV recebe o próximo vertice a ser
@@ -26,11 +24,11 @@ void busca_aprofundamento_iterativo(){
         proxV = -1;
         while(j < arvore[v].num_adj){
             
-            int *hashTemp = malloc(sizeof(int));
-            *hashTemp = indice_hash(arvore[arvore[v].adj[j]].e);
-            if(*hashTemp == HASH_FINAL){ // Se a solução for encontrada.
+            int hashTemp;
+            hashTemp = indice_hash(arvore[arvore[v].adj[j]].e);
+            if(hashTemp == HASH_FINAL){ // Se a solução for encontrada.
                 
-                addPile(pilha, (void *)hashTemp);
+                addPile(pilha, hashTemp);
                 goto label_fim;
             }else if(!arvore[arvore[v].adj[j]].visitado && proxV == -1){
                 
@@ -38,24 +36,21 @@ void busca_aprofundamento_iterativo(){
             }
             j++;
         }
-        int *temp;
+		
         if(proxV == -1){ // Se não encontrou solução e nao tem mais vizinhos para ir.
 
             removePile(pilha);
-            temp = (int *)pilha->top->obj;
-            v = *temp;
+            v = pilha->top->obj;
         }else{ // Se não encontrar a solução mas existir vizinhos para ir.
             
-            temp = malloc(sizeof(int));
-            *temp = proxV;
-            addPile(pilha, (void *)temp);
+            addPile(pilha, proxV);
             v = proxV;
             arvore[v].visitado = 1;
         }
     }
 	
 	label_fim:
-	printPile(pilha);
+	printPile(pilha, printH);
 	deletePile(pilha);
 }
 
@@ -68,19 +63,18 @@ void busca_aprofundamento_iterativo_recursivo(){
 	Pile *pilha = newPile();
 	
 	//Insere o estado inicial na pilha.
-	int hash_inicial = HASH_INICIAL;
-	addPile(pilha, (void *) &hash_inicial);
+	addPile(pilha, HASH_INICIAL);
 	
 	int achou = 0;
 	aprofundamento_iterativo_recursivo(arvore, HASH_INICIAL, pilha, &achou);
-	printPile(pilha);
+	printPile(pilha, printH);
 	deletePile(pilha);
 }
 
 void aprofundamento_iterativo_recursivo(Arvore arvore, int indice_atual, Pile *pilha, int *achou){
 	
 	No *atual = &arvore[indice_atual];
-    int *indice_novo = malloc(sizeof(int));
+    int indice_novo;
 	int i;
 	if(!arvore[indice_atual].visitado){
 		arvore[indice_atual].visitado=1;
@@ -89,8 +83,8 @@ void aprofundamento_iterativo_recursivo(Arvore arvore, int indice_atual, Pile *p
 		for(i=0;i<arvore[indice_atual].num_adj;i++){
 			if(indice_hash(arvore[atual->adj[i]].e) == HASH_FINAL){
 			   (*achou) = 1;
-			   *indice_novo = indice_hash(arvore[atual->adj[i]].e);
-			   addPile(pilha, (void *) indice_novo);
+			   indice_novo = indice_hash(arvore[atual->adj[i]].e);
+			   addPile(pilha, indice_novo);
 			   return;
 			}
 		}
@@ -98,10 +92,10 @@ void aprofundamento_iterativo_recursivo(Arvore arvore, int indice_atual, Pile *p
 		//Profundidade
 		for(i=0;i<arvore[indice_atual].num_adj;i++){
 			if(!arvore[arvore[indice_atual].adj[i]].visitado){
-				*indice_novo = indice_hash(arvore[arvore[indice_atual].adj[i]].e);
-				addPile(pilha, (void *) indice_novo);
-				atual = &arvore[*indice_novo];
-				aprofundamento_iterativo_recursivo(arvore, *indice_novo, pilha, achou);
+				indice_novo = indice_hash(arvore[arvore[indice_atual].adj[i]].e);
+				addPile(pilha, indice_novo);
+				atual = &arvore[indice_novo];
+				aprofundamento_iterativo_recursivo(arvore, indice_novo, pilha, achou);
 				if(!(*achou)){
 					removePile(pilha);
 				}else{
